@@ -18,7 +18,7 @@ public class Gravador {
     
     public static void write(LeituraMaquina leitura){
         
-        String path = "C:\\Users\\Herbert\\Google Drive\\Registros Projeto Porcher" + Utils.getDataSistema();
+        String path = LoadConfig.getConfig("LocalFolder") + Utils.getDataSistema() + ".txt";
         
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
             

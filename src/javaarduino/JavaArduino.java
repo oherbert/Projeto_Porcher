@@ -5,7 +5,6 @@
  */
 package javaarduino;
 
-import model.bean.Temperatura;
 import model.dao.TemperaturaDAO;
 
 /**

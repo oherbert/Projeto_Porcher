@@ -9,28 +9,22 @@ package arduino.util;
  *
  * @author Herbert
  */
-import arduino.util.ZonasTemperatura;
+import Util.LoadConfig;
 import java.awt.Color; 
 import java.awt.BasicStroke; 
 import java.awt.Dimension;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collections;
 import java.util.List;
 import org.jfree.chart.ChartPanel; 
 import org.jfree.chart.JFreeChart; 
-import org.jfree.data.xy.XYDataset; 
-import org.jfree.data.xy.XYSeries; 
-import org.jfree.ui.ApplicationFrame; 
-import org.jfree.ui.RefineryUtilities; 
+import org.jfree.data.xy.XYDataset;  
+import org.jfree.ui.ApplicationFrame;  
 import org.jfree.chart.plot.XYPlot; 
 import org.jfree.chart.ChartFactory; 
 import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.plot.PlotOrientation; 
-import org.jfree.data.xy.XYSeriesCollection; 
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.time.Hour;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -57,11 +51,10 @@ public class Grafico extends ApplicationFrame {
       renderer.setSeriesStroke( 0 , new BasicStroke( 4.0f ) );
       renderer.setSeriesStroke( 1 , new BasicStroke( 3.0f ) );
       plot.setRenderer( renderer ); 
-      //setContentPane( chartPanel ); 
       OutputStream png;
        
       try {
-           png = new FileOutputStream("C:\\Users\\Herbert\\Documents\\NetBeansProjects\\JavaArduino\\Grafico.png");
+           png = new FileOutputStream(LoadConfig.getConfig("ChartPath"));
             ChartUtilities.writeChartAsPNG(png, xylineChart,1000,400);
        } catch (IOException e) {
            System.err.println("Erro ao gerar Grafico: "+ e.getMessage());
@@ -92,7 +85,7 @@ public class Grafico extends ApplicationFrame {
       OutputStream png;
        
       try {
-           png = new FileOutputStream("C:\\Users\\Herbert\\Documents\\NetBeansProjects\\JavaArduino\\Grafico.png");
+           png = new FileOutputStream(LoadConfig.getConfig("ChartPath"));
            ChartUtilities.writeChartAsPNG(png, xylineChart,1000,400);
        } catch (IOException e) {
            System.err.println("Erro ao gerar Grafico: "+ e.getMessage());

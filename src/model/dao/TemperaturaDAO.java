@@ -9,9 +9,8 @@ import Connections.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.bean.Temperatura;
+import model.entities.LeituraMaquina;
+
 
 /**
  *
@@ -19,18 +18,17 @@ import model.bean.Temperatura;
  */
 public class TemperaturaDAO {
     
-    public boolean save (Temperatura t, String logSis){
+    public boolean save (LeituraMaquina leitura, String logSis){
         
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         try {
             
-            stmt = conn.prepareStatement("INSERT INTO RegistroTemperatura (temperaturaZ1,temperaturaZ2,estadoMaquina, logSistema) values (?,?,?,?)");
-            stmt.setDouble(1, t.getTemperatuZ1());
-            stmt.setDouble(2, t.getTemperatuZ2());
-            stmt.setString(3, t.getEstadoMaquina());
-            stmt.setString(4, logSis);
+            stmt = conn.prepareStatement("INSERT INTO RegistroTemperatura (temperaturaZ1,temperaturaZ2,estadoMaquina) values (?,?,?)");
+            stmt.setDouble(1, leitura.getTemp1());
+            stmt.setDouble(2, leitura.getTemp2());
+            stmt.setString(3, leitura.getEstado());
             stmt.executeUpdate();
             return true;
         

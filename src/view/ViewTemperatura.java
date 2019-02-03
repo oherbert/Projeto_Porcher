@@ -6,19 +6,16 @@
 package view;
 
 import Util.Gravador;
+import Util.LoadConfig;
 import Util.Utils;
 import arduino.util.ArduinoSerial;
 import arduino.util.Grafico;
 import arduino.util.ZonasTemperatura;
 import java.awt.Color;
 import java.awt.Toolkit;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.ImageIcon;
-import model.bean.Temperatura;
-import model.dao.TemperaturaDAO;
 import model.entities.LeituraMaquina;
 import org.jfree.data.time.Minute;
 import org.jfree.ui.RefineryUtilities;
@@ -34,8 +31,7 @@ public class ViewTemperatura extends javax.swing.JFrame {
      */
     public ViewTemperatura() {
         initComponents();
-        ArduinoSerial arduino = new ArduinoSerial("COM8");
-        List<ZonasTemperatura> lstZonasTemp = new ArrayList<>(); 
+        ArduinoSerial arduino = new ArduinoSerial(LoadConfig.getConfig("ArduinoCom")); 
         String log = "Inicializando o Sistema";
         geraLog(log);        
         carregaGrafico();
@@ -54,7 +50,6 @@ public class ViewTemperatura extends javax.swing.JFrame {
                 while (true) {
                     arduino.sleep(3000);
                     //System.out.print("Saida arduino: "+arduino.read());
-                    System.out.println(Utils.getDataHoraSistema());  
                         if(arduino.read() != null){   
                         String[] dados = arduino.read().split(",");
                         String z1 = dados[0];
@@ -77,8 +72,7 @@ public class ViewTemperatura extends javax.swing.JFrame {
                         if ("salvar".equals(cmdSalvar)) {
                             System.out.println("Registro " + Utils.getDataSistema());
                             Gravador.write(leitura);
-                            lstZonasTemp.add( new ZonasTemperatura(Double.parseDouble(z1), Double.parseDouble(z2), new Minute()));
-                            carregaGrafico(lstZonasTemp);
+                            carregaGrafico();
                         }}
                         catch(NumberFormatException e){
                             System.out.println("Erro ao carregar valores");
@@ -130,6 +124,7 @@ public class ViewTemperatura extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -255,6 +250,15 @@ public class ViewTemperatura extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Help");
+
+        jMenuItem1.setText("Registros");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -288,6 +292,11 @@ public class ViewTemperatura extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        ViewHelp viewHelp = new ViewHelp(this, rootPaneCheckingEnabled);
+        viewHelp.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -336,8 +345,8 @@ public class ViewTemperatura extends javax.swing.JFrame {
         geraLog(msg);
         txtLog.setDisabledTextColor(Color.red);
     }
-    
-    private void carregaGrafico(List<ZonasTemperatura> lstZonasTemp){
+    /*
+    private void carregaGrafico(List<LeituraMaquina> lstZonasTemp){
         
         Grafico chart = new Grafico("Temperatura de Secagem dos fornos ICBT's",
         "Temperatura do Forno", lstZonasTemp);
@@ -355,7 +364,7 @@ public class ViewTemperatura extends javax.swing.JFrame {
             erroLog("Erro ao gerar o grafico");
         }
         
-    }
+    }*/
     
     private void carregaGrafico(){
         Grafico chart = new Grafico("Temperatura de Secagem dos fornos ICBT's",
@@ -367,8 +376,8 @@ public class ViewTemperatura extends javax.swing.JFrame {
         
         try {  
              java.awt.Image nGrafico = Toolkit.getDefaultToolkit().getImage(path);  
+             nGrafico.flush();
              lblGrafico.setIcon(new ImageIcon(nGrafico));
-            //lblGrafico.setIcon(( new Image(("Grafico.png")));
           
         } catch (NullPointerException e) {
             erroLog("Erro ao gerar o grafico");
@@ -385,6 +394,7 @@ public class ViewTemperatura extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblEstado;
