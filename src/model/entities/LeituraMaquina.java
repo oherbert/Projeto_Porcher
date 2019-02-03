@@ -59,7 +59,7 @@ public class LeituraMaquina {
     
     @Override
     public String toString() {
-        return  Utils.getDataHoraSistema()+',' + temp1 + ',' + temp2 + ',' + Estado + ',';
+        return  Utils.getDataHoraSistema()+", " + temp1 + ", " + temp2 + ", " + Estado;
     }
    
     

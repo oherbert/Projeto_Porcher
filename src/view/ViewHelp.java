@@ -5,7 +5,8 @@
  */
 package view;
 
-import Util.LoadConfig;
+import Util.Config;
+import Util.ConfigList;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -25,7 +26,7 @@ public class ViewHelp extends javax.swing.JDialog {
     public ViewHelp(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        txtLink.setText(LoadConfig.getConfig("CloudFolder"));
+        txtLink.setText(Config.loadConfig(ConfigList.CloudFolder));
     }
 
     /**
@@ -108,10 +109,10 @@ public class ViewHelp extends javax.swing.JDialog {
     private void linkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkLabelMouseClicked
         try {
 		
-		Desktop.getDesktop().browse(new URI(LoadConfig.getConfig("CloudFolder")));
+		Desktop.getDesktop().browse(new URI(Config.loadConfig(ConfigList.CloudFolder)));
 		
 	} catch (IOException | URISyntaxException e1) {
-		e1.printStackTrace();
+            System.out.println("Erro ao tentar abri a Url: " + e1.getMessage());
 	}
     }//GEN-LAST:event_linkLabelMouseClicked
 

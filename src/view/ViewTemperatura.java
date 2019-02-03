@@ -6,18 +6,15 @@
 package view;
 
 import Util.Gravador;
-import Util.LoadConfig;
+import Util.Config;
+import Util.ConfigList;
 import Util.Utils;
 import arduino.util.ArduinoSerial;
 import arduino.util.Grafico;
-import arduino.util.ZonasTemperatura;
 import java.awt.Color;
 import java.awt.Toolkit;
-import java.util.List;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import model.entities.LeituraMaquina;
-import org.jfree.data.time.Minute;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -31,7 +28,7 @@ public class ViewTemperatura extends javax.swing.JFrame {
      */
     public ViewTemperatura() {
         initComponents();
-        ArduinoSerial arduino = new ArduinoSerial(LoadConfig.getConfig("ArduinoCom")); 
+        ArduinoSerial arduino = new ArduinoSerial(Config.loadConfig(ConfigList.ArduinoCom)); 
         String log = "Inicializando o Sistema";
         geraLog(log);        
         carregaGrafico();

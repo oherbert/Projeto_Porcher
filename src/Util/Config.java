@@ -13,9 +13,9 @@ import java.io.IOException;
  *
  * @author Herbert
  */
-public class LoadConfig {
+public class Config {
 
-    public static String getConfig(String parametro) {
+    public static String loadConfig(Enum ConfigList) {
 
         String path = "Config.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -23,7 +23,7 @@ public class LoadConfig {
             while (line != null) {
                 String[] linha = line.split(": ");
 
-                if (parametro.equals(linha[0])) {
+                if (ConfigList.toString().equals(linha[0])) {
                     return linha[1];
                 } else {
                     line = br.readLine();
@@ -35,6 +35,10 @@ public class LoadConfig {
             System.out.println("Error: " + e.getMessage());
         }
         return null;
+    }
+    
+    public static void setConfig (String parameter, String newValue){
+            
     }
 
 }

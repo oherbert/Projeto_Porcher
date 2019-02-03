@@ -6,6 +6,7 @@
 package Util;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import model.entities.LeituraMaquina;
@@ -18,7 +19,25 @@ public class Gravador {
     
     public static void write(LeituraMaquina leitura){
         
-        String path = LoadConfig.getConfig("LocalFolder") + Utils.getDataSistema() + ".txt";
+        File file = new File(Config.loadConfig(ConfigList.LocalFolder));
+        File[] folders = file.listFiles(File::isDirectory);
+        
+        boolean checkFolder = false;
+        
+        for (File folder:folders){
+            if (folder.getName().equals(Utils.getMesAnoFormated_())){
+                checkFolder = true;
+                break;
+            }
+        }
+        String filePath = (Config.loadConfig(ConfigList.LocalFolder) + Utils.getMesAnoFormated_());
+        
+        if (checkFolder == false){
+        boolean createFolder = new File(filePath).mkdir();
+        }
+        
+        
+        String path = filePath+ "\\" + Utils.getDataFormated_() + ".txt";
         
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
             
