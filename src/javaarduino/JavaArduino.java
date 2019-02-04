@@ -5,8 +5,6 @@
  */
 package javaarduino;
 
-import model.dao.TemperaturaDAO;
-
 /**
  *
  * @author Herbert

@@ -22,8 +22,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -69,46 +70,6 @@ public class Grafico extends ApplicationFrame {
         }
     }
 
-    /*
-    public Grafico(String applicationTitle, String chartTitle) {
-        super(applicationTitle);
-
-        JFreeChart xylineChart = ChartFactory.createTimeSeriesChart(
-                chartTitle,
-                "Hora",
-                "Temperatura",
-                createDataset(Zt),
-                true, true, false);
-
-        ChartPanel chartPanel = new ChartPanel(xylineChart);
-        chartPanel.setPreferredSize(new java.awt.Dimension());
-        final XYPlot plot = xylineChart.getXYPlot();
-
-        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesPaint(0, Color.RED);
-        renderer.setSeriesPaint(1, Color.ORANGE);
-        renderer.setSeriesStroke(0, new BasicStroke(4.0f));
-        renderer.setSeriesStroke(1, new BasicStroke(3.0f));
-        plot.setRenderer(renderer);
-        setContentPane(chartPanel);
-        OutputStream png;
-
-        try {
-            png = new FileOutputStream(Config.loadConfig(ConfigList.ChartPath));
-            ChartUtilities.writeChartAsPNG(png, xylineChart, 1000, 400);
-        } catch (IOException e) {
-            System.err.println("Erro ao gerar Grafico: " + e.getMessage());
-        }
-    }
-/*
-    private XYDataset createDataset() {
-        final TimeSeries z1 = new TimeSeries("Temperatura Secagem", Minute.class);
-        final TimeSeries z2 = new TimeSeries("Temperatura Vulcanização", Minute.class);
-
-        final TimeSeriesCollection dataset = new TimeSeriesCollection();
-        return dataset;
-    }
-     */
     private XYDataset createDataset() {
         final TimeSeries z1 = new TimeSeries("Temperatura Secagem", Minute.class);
         final TimeSeries z2 = new TimeSeries("Temperatura Vulcanização", Minute.class);
@@ -118,12 +79,24 @@ public class Grafico extends ApplicationFrame {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line = br.readLine();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
+            
+            Calendar cal = Calendar.getInstance();
+            Date d1 =new Date(System.currentTimeMillis());
+            
+            cal.setTime(d1);
+            cal.add(Calendar.HOUR_OF_DAY, -1);
+            d1 = cal.getTime();
+            
             while (line != null) {
                 String[] cut = line.split(", ");
                 try {
-                    z1.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[1]));
-                    z2.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[2]));
+
+                    if (sdf.parse(cut[0]).after(d1)) {
+
+                        z1.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[1]));
+                        z2.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[2]));
+                    }
+
                 } catch (ParseException ex) {
                     Logger.getLogger("Erro ao tentar converter os dados do registro: " + ex.getMessage());
                 }

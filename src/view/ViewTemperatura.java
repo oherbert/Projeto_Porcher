@@ -28,62 +28,60 @@ public class ViewTemperatura extends javax.swing.JFrame {
      */
     public ViewTemperatura() {
         initComponents();
-        ArduinoSerial arduino = new ArduinoSerial(Config.loadConfig(ConfigList.ArduinoCom)); 
+        ArduinoSerial arduino = new ArduinoSerial(Config.loadConfig(ConfigList.ArduinoCom));
         String log = "Inicializando o Sistema";
-        geraLog(log);        
+        geraLog(log);
         carregaGrafico();
 
-       
         Thread tr1 = new Thread() {
-            @Override            
+            @Override
             public void run() {
-                 String lastLog = "";
-                
-                 try {          
-                arduino.initialize();
-                arduino.sleep(10000);
-                System.out.println("Saida arduino: "+arduino.read());
-  
-                while (true) {
-                    arduino.sleep(3000);
-                    //System.out.print("Saida arduino: "+arduino.read());
-                        if(arduino.read() != null){   
-                        String[] dados = arduino.read().split(",");
-                        String z1 = dados[0];
-                        String z2 = dados[1];
-                        String estado = dados[2];
-                        String cmdSalvar = dados[3];
-                        
-                        try{
-                        lblZ1.setText(z1);
-                        lblZ2.setText(z2);
-                        lblEstado.setText(estado);
-                        
-                        if (!"Comunicação estabelecida".equals(lastLog)){
-                            geraLog("Comunicação estabelecida");
-                            lastLog = "Comunicação estabelecida";
-                        }
-                        
-                            LeituraMaquina leitura = new LeituraMaquina(Double.parseDouble(z1), Double.parseDouble(z2), estado);
+                String lastLog = "";
 
-                        if ("salvar".equals(cmdSalvar)) {
-                            System.out.println("Registro " + Utils.getDataSistema());
-                            Gravador.write(leitura);
-                            carregaGrafico();
-                        }}
-                        catch(NumberFormatException e){
-                            System.out.println("Erro ao carregar valores");
-                            if (!"Erro ao carregar os valores".equals(lastLog)){
-                            erroLog("Erro ao carregar os valores");
-                            lastLog = "Erro ao carregar os valores";
-                        }
-                            
-                        }
-                    }
-                       else if (!"Leitura do arduino Nula".equals(lastLog)){
+                try {
+                    arduino.initialize();
+                    arduino.sleep(10000);
+                    System.out.println("Saida arduino: " + arduino.read());
+
+                    while (true) {
+                        arduino.sleep(3000);
+                        //System.out.print("Saida arduino: "+arduino.read());
+                        if (arduino.read() != null) {
+                            String[] dados = arduino.read().split(",");
+                            String z1 = dados[0];
+                            String z2 = dados[1];
+                            String estado = dados[2];
+                            String cmdSalvar = dados[3];
+
+                            try {
+                                lblZ1.setText(z1);
+                                lblZ2.setText(z2);
+                                lblEstado.setText(estado);
+
+                                if (!"Comunicação estabelecida".equals(lastLog)) {
+                                    geraLog("Comunicação estabelecida");
+                                    lastLog = "Comunicação estabelecida";
+                                }
+
+                                LeituraMaquina leitura = new LeituraMaquina(Double.parseDouble(z1), Double.parseDouble(z2), estado);
+
+                                if ("salvar".equals(cmdSalvar)) {
+                                    System.out.println("Registro " + Utils.getDataSistema());
+                                    Gravador.write(leitura);
+                                    carregaGrafico();
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Erro ao carregar valores");
+                                if (!"Erro ao carregar os valores".equals(lastLog)) {
+                                    erroLog("Erro ao carregar os valores");
+                                    lastLog = "Erro ao carregar os valores";
+                                }
+
+                            }
+                        } else if (!"Leitura do arduino Nula".equals(lastLog)) {
                             erroLog("Leitura do arduino Nula");
                             lastLog = "Leitura do arduino Nula";
-                       }
+                        }
                     }
                 } catch (UnsatisfiedLinkError e) {
                     erroLog("Erro ao acessar o Arduino");
@@ -333,54 +331,32 @@ public class ViewTemperatura extends javax.swing.JFrame {
 
     private void geraLog(String log) {
         txtLog.setDisabledTextColor(Color.black);
-        txtLog.append ("[" + Utils.getDataHoraSistema() + "] " + log + "\n");
+        txtLog.append("[" + Utils.getDataHoraSistema() + "] " + log + "\n");
     }
-
 
     private void erroLog(String msg) {
         System.err.println(msg);
         geraLog(msg);
         txtLog.setDisabledTextColor(Color.red);
     }
-    /*
-    private void carregaGrafico(List<LeituraMaquina> lstZonasTemp){
-        
+
+    private void carregaGrafico() {
         Grafico chart = new Grafico("Temperatura de Secagem dos fornos ICBT's",
-        "Temperatura do Forno", lstZonasTemp);
+                "Temperatura do Forno");
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(false);
         final String path = "Grafico.png";
-        
-        try {  
-             java.awt.Image nGrafico = Toolkit.getDefaultToolkit().getImage(path);  
-             nGrafico.flush();
-             this.lblGrafico.setIcon(new ImageIcon(nGrafico));
-            //lblGrafico.setIcon(( new Image(("Grafico.png")));
-        } catch (NullPointerException e) {
-            erroLog("Erro ao gerar o grafico");
-        }
-        
-    }*/
-    
-    private void carregaGrafico(){
-        Grafico chart = new Grafico("Temperatura de Secagem dos fornos ICBT's",
-        "Temperatura do Forno");
-        chart.pack();
-        RefineryUtilities.centerFrameOnScreen(chart);
-        chart.setVisible(false);
-        final String path = "Grafico.png";
-        
-        try {  
-             java.awt.Image nGrafico = Toolkit.getDefaultToolkit().getImage(path);  
-             nGrafico.flush();
-             lblGrafico.setIcon(new ImageIcon(nGrafico));
-          
+
+        try {
+            java.awt.Image nGrafico = Toolkit.getDefaultToolkit().getImage(path);
+            nGrafico.flush();
+            lblGrafico.setIcon(new ImageIcon(nGrafico));
+
         } catch (NullPointerException e) {
             erroLog("Erro ao gerar o grafico");
         }
     }
-    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

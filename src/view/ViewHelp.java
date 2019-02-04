@@ -108,12 +108,12 @@ public class ViewHelp extends javax.swing.JDialog {
 
     private void linkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkLabelMouseClicked
         try {
-		
-		Desktop.getDesktop().browse(new URI(Config.loadConfig(ConfigList.CloudFolder)));
-		
-	} catch (IOException | URISyntaxException e1) {
+
+            Desktop.getDesktop().browse(new URI(Config.loadConfig(ConfigList.CloudFolder)));
+
+        } catch (IOException | URISyntaxException e1) {
             System.out.println("Erro ao tentar abri a Url: " + e1.getMessage());
-	}
+        }
     }//GEN-LAST:event_linkLabelMouseClicked
 
     private void linkLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkLabelMouseEntered
@@ -129,8 +129,6 @@ public class ViewHelp extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLinkActionPerformed
 
- 
-    
     /**
      * @param args the command line arguments
      */
@@ -157,8 +155,7 @@ public class ViewHelp extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(ViewHelp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
-        
+
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

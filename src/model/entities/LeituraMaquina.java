@@ -13,21 +13,21 @@ import java.util.Date;
  * @author Herbert
  */
 public class LeituraMaquina {
-    
+
     private Double temp1;
     private Double temp2;
     private String Estado;
     private Date currentData;
-    
+
     public LeituraMaquina() {
     }
-   
+
     public LeituraMaquina(Double temp1, Double temp2, String Estado) {
         this.temp1 = temp1;
         this.temp2 = temp2;
         this.Estado = Estado;
     }
-    
+
     public Double getTemp1() {
         return temp1;
     }
@@ -51,17 +51,14 @@ public class LeituraMaquina {
     public void setEstado(String Estado) {
         this.Estado = Estado;
     }
-    
+
     public Date getTimeStamp() {
         return currentData;
     }
-    
-    
+
     @Override
     public String toString() {
-        return  Utils.getDataHoraSistema()+", " + temp1 + ", " + temp2 + ", " + Estado;
+        return Utils.getDataHoraSistema() + ", " + temp1 + ", " + temp2 + ", " + Estado;
     }
-   
-    
-    
+
 }
