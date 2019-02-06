@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
+package model.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,22 +25,6 @@ public class Config {
 
     public Config(String parametro, String valor) {
         this.parametro = parametro;
-        this.valor = valor;
-    }
-
-    public String getParametro() {
-        return parametro;
-    }
-
-    public void setParametro(String parametro) {
-        this.parametro = parametro;
-    }
-
-    public String getValor() {
-        return valor;
-    }
-
-    public void setValor(String valor) {
         this.valor = valor;
     }
 
@@ -68,11 +52,16 @@ public class Config {
         }
         return true;
     }
+
+    public String getParametro() {
+        return parametro;
+    }
+
+    public String getValor() {
+        return valor;
+    }
     
-    
-    
-    
-    
+        
 
     public static String loadConfig(Enum ConfigList) {
 
@@ -105,19 +94,20 @@ public class Config {
             
             while (line != null) {
                 String[] linha = line.split(": ");
+                System.out.println(linha[0]+" e "+linha[1]);
                 mapConfig.put(linha[0], linha[1]);
                 line = br.readLine();
             }
 
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Erro ao tentar criar o mapeamento das configurações " + e.getMessage());
         }
         
-         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
+         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, false))) {
             mapConfig.put(config.getParametro(), config.getValor());
             
             for (String key: mapConfig.keySet() ){
-            bw.write(key + " ,"+ mapConfig.get(key));
+            bw.write(key + ": "+ mapConfig.get(key));
             bw.newLine();
             }
         } catch (IOException e) {

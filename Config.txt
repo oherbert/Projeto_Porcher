@@ -1,4 +1,3 @@
-ChartPath: C:\\Users\\Herbert\\Documents\\NetBeansProjects\\Projeto_Porcher\\Grafico.png
 ArduinoCom: COM8
 CloudFolder: https://drive.google.com/drive/folders/1ad7ErOeUKliwyPDP4FTEFxfGunt6fUGo?usp=sharing
-LocalFolder: C:\\Users\\Herbert\\Google Drive\\Registros Projeto Porcher\\
+LocalFolder: C:\\Users\\Herbert\Google Drive\\Registros Projeto Porcher\\

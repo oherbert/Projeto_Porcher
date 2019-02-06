@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package gui;
 
-import Util.Config;
-import Util.ConfigList;
+import model.util.Config;
+import model.enums.ConfigList;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;

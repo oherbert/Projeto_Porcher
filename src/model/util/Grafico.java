@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arduino.util;
+package model.util;
 
 /**
  *
  * @author Herbert
  */
-import Util.Config;
-import Util.ConfigList;
-import Util.Utils;
+import model.enums.ConfigList;
 import java.awt.Color;
 import java.awt.BasicStroke;
 import java.awt.Dimension;
@@ -63,8 +61,8 @@ public class Grafico extends ApplicationFrame {
         OutputStream png;
 
         try {
-            png = new FileOutputStream(Config.loadConfig(ConfigList.ChartPath));
-            ChartUtilities.writeChartAsPNG(png, xylineChart, 1000, 400);
+            png = new FileOutputStream("Grafico.png");
+            ChartUtilities.writeChartAsPNG(png, xylineChart, 1500, 400);
         } catch (IOException e) {
             System.err.println("Erro ao construir png Grafico: " + e.getMessage());
         }

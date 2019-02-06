@@ -5,7 +5,7 @@
  */
 package model.entities;
 
-import Util.Utils;
+import model.util.Utils;
 import java.util.Date;
 
 /**

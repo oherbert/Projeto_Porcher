@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package gui;
 
-import Util.Config;
-import Util.ConfigList;
-import javax.swing.JComboBox;
+import model.util.Config;
+import model.enums.ConfigList;
 
 /**
  *
@@ -128,8 +127,9 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         
         else {
             Config.setConfig(new Config(ConfigList.ArduinoCom.toString(), cboCom.getSelectedItem().toString()));
-            Config.setConfig(new Config(ConfigList.LocalFolder.toString(), txtLocal.toString()));
-            Config.setConfig(new Config(ConfigList.CloudFolder.toString(), txtRemoto.toString()));
+            Config.setConfig(new Config(ConfigList.LocalFolder.toString(), txtLocal.getText()));
+            Config.setConfig(new Config(ConfigList.CloudFolder.toString(), txtRemoto.getText()));
+            
         }
         
     }//GEN-LAST:event_btnAlterarActionPerformed

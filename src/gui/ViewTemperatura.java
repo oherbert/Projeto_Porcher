@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package gui;
 
-import Util.Gravador;
-import Util.Config;
-import Util.ConfigList;
-import Util.Utils;
+import model.util.Gravador;
+import model.util.Config;
+import model.enums.ConfigList;
+import model.util.Utils;
 import arduino.util.ArduinoSerial;
-import arduino.util.Grafico;
+import model.util.Grafico;
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
