@@ -5,8 +5,12 @@
  */
 package gui;
 
+import gui.util.Alerts;
+import gui.util.Constraints;
+import javafx.scene.control.Alert;
 import model.util.Config;
 import model.enums.ConfigList;
+import model.enums.TypePane;
 
 /**
  *
@@ -26,6 +30,8 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         cboCom.addItem(lst);
         txtLocal.setText(Config.loadConfig(ConfigList.LocalFolder));
         txtRemoto.setText(Config.loadConfig(ConfigList.CloudFolder));
+        
+            
     }
     }
 
@@ -123,6 +129,8 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
         if ("".equals(txtLocal.getText().trim()) || "".equals(txtRemoto.getText().trim()) ||
             txtLocal.getText() == null || txtRemoto.getText() == null){
+            
+            Alerts.showAlert("Campos não preenchidos", "Erro ao preencher", "Preencher todos os campos solicitados",TypePane.ERRO);
         }
         
         else {

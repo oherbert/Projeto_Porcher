@@ -1,15 +1,14 @@
 package gui.util;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+
 
 public class Alerts {
 
-	public static void showAlert(String title, String header, String content, AlertType type) {
-		Alert alert = new Alert(type);
-		alert.setTitle(title);
-		alert.setHeaderText(header);
-		alert.setContentText(content);
-		alert.show();
+	public static void showAlert(String title, String header, String content, Enum TypePane) {
+            JFrame frame = new JFrame(content);
+            JOptionPane.showMessageDialog(frame, header, title, TypePane.ordinal());
 	}
 }
