@@ -1,11 +1,11 @@
 ArduinoCom: COM8
 CloudFolder: https://drive.google.com/drive/folders/1ad7ErOeUKliwyPDP4FTEFxfGunt6fUGo?usp=sharing
-LocalFolder: C:\\Users\\Herbert\Google Drive\\Registros Projeto Porcher\\
-OffSetSecagem_1: 1
+LocalFolder: C:\\Users\\Herbert\\Google Drive\\Registros Projeto Porcher
+OffSetSecagem_1: 20.5
 OffSetSecagem_2: 2
 OffSetSecagem_3: 3
 OffSetSecagem_4: 4
-OffSetVulcanizacao_1: 1
+OffSetVulcanizacao_1: -40
 OffSetVulcanizacao_2: 2
 OffSetVulcanizacao_3: 3
 OffSetVulcanizacao_4: 4

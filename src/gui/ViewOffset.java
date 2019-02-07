@@ -5,9 +5,11 @@
  */
 package gui;
 
+import gui.util.Alerts;
 import gui.util.CheckTextField;
 import gui.util.Constraints;
 import model.enums.ConfigList;
+import model.enums.TypePane;
 import model.util.Config;
 
 /**
@@ -24,21 +26,21 @@ public class ViewOffset extends javax.swing.JDialog {
         initComponents();
         
         Constraints.setTextFieldDouble(txtSecagem1);
-        Constraints.setTextFieldMaxLength(txtSecagem1, 4);
+        Constraints.setTextFieldMaxLength(txtSecagem1, 5);
         Constraints.setTextFieldDouble(txtSecagem2);
-        Constraints.setTextFieldMaxLength(txtSecagem2, 4);
+        Constraints.setTextFieldMaxLength(txtSecagem2, 5);
         Constraints.setTextFieldDouble(txtSecagem3);
-        Constraints.setTextFieldMaxLength(txtSecagem3, 4);
+        Constraints.setTextFieldMaxLength(txtSecagem3, 5);
         Constraints.setTextFieldDouble(txtSecagem3);
-        Constraints.setTextFieldMaxLength(txtSecagem4, 4);
+        Constraints.setTextFieldMaxLength(txtSecagem4, 5);
         Constraints.setTextFieldDouble(txtVulcanizacao1);
-        Constraints.setTextFieldMaxLength(txtVulcanizacao1, 4);
+        Constraints.setTextFieldMaxLength(txtVulcanizacao1, 5);
         Constraints.setTextFieldDouble(txtVulcanizacao2);
-        Constraints.setTextFieldMaxLength(txtVulcanizacao2, 4);
+        Constraints.setTextFieldMaxLength(txtVulcanizacao2, 5);
         Constraints.setTextFieldDouble(txtVulcanizacao3);
-        Constraints.setTextFieldMaxLength(txtVulcanizacao3, 4);
+        Constraints.setTextFieldMaxLength(txtVulcanizacao3, 5);
         Constraints.setTextFieldDouble(txtVulcanizacao4);
-        Constraints.setTextFieldMaxLength(txtVulcanizacao4, 4);
+        Constraints.setTextFieldMaxLength(txtVulcanizacao4, 5);
         
         txtSecagem1.setText(Config.loadConfig(ConfigList.OFFSETSECAGEM_1));
         txtSecagem2.setText(Config.loadConfig(ConfigList.OFFSETSECAGEM_2));
@@ -265,6 +267,9 @@ public class ViewOffset extends javax.swing.JDialog {
         }else{
             Config.setConfig(new Config(ConfigList.OFFSETVULCANICACAO_4, "0"));
         }
+        
+        Alerts.showAlert("Valores Salvos", "Os valores foram salvos com sucesso", "", TypePane.INFORMATION);
+        this.dispose();
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void txtVulcanizacao1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVulcanizacao1ActionPerformed

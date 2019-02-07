@@ -35,9 +35,9 @@ public class Constraints {
         txt.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char letter = e.getKeyChar();
-                if (e.toString() != null && !txt.getText().matches("\\d*([\\.]\\d*)?")) {
+                if (e.toString() != null && !txt.getText().matches("([\\-]\\d*)?\\d*([\\.]\\d*)?")) {
                     e.consume();
-                } else if (letter == '.') {
+                } else if (letter == '.' || letter =='-') {
                 } else if (!Character.isDigit(letter)) {
                     e.consume();
                 }

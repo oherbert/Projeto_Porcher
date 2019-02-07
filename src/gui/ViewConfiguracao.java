@@ -13,6 +13,9 @@ import model.util.Config;
 import model.enums.ConfigList;
 import model.enums.TypePane;
 import gui.util.CheckTextField;
+import gui.util.FormatLocalPath;
+import model.entities.LeituraMaquina;
+import model.util.Writer;
 
 /**
  *
@@ -26,14 +29,13 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     public ViewConfiguracao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        String[] lstCom = new String[]{"COM1","COM2","COM3","COM4","COM5","COM6","COM7","COM8","COM9"};
-        for(String lst:lstCom){
-        cboCom.addItem(lst);
-        txtLocal.setText(Config.loadConfig(ConfigList.LOCALFOLDER));
-        txtRemoto.setText(Config.loadConfig(ConfigList.CLOUDFOLDER));        
-            
-    }
+
+        String[] lstCom = new String[]{"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"};
+        for (String lst : lstCom) {
+            cboCom.addItem(lst);
+            txtLocal.setText(FormatLocalPath.TwoBarsToOneBar(Config.loadConfig(ConfigList.LOCALFOLDER)));
+            txtRemoto.setText(Config.loadConfig(ConfigList.CLOUDFOLDER));
+        }
     }
 
     /**
@@ -97,7 +99,7 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                             .addComponent(txtLocal)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
-                        .addComponent(btnAlterar)))
+                        .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(71, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -116,8 +118,8 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(txtRemoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(btnAlterar)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -128,21 +130,31 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     }//GEN-LAST:event_cboComActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-            List<JTextField> lst = new ArrayList<>();
-            lst.add(txtLocal);
-            lst.add(txtRemoto);
-        if (CheckTextField.emptyList(lst) == true){
+        List<JTextField> lst = new ArrayList<>();
+        lst.add(txtLocal);
+        lst.add(txtRemoto);
+        if (CheckTextField.emptyList(lst) == true) {
+
+            Alerts.showAlert("Campos não preenchidos", "Preencher todos os campos solicitados", "", TypePane.ERRO);
+        } else {
+            String currentPath = Config.loadConfig(ConfigList.LOCALFOLDER);
             
-            Alerts.showAlert("Campos não preenchidos", "Preencher todos os campos solicitados", "",TypePane.ERRO);
-        }
-        
-        else {
-            Config.setConfig(new Config(ConfigList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
-            Config.setConfig(new Config(ConfigList.LOCALFOLDER, txtLocal.getText()));
-            Config.setConfig(new Config(ConfigList.CLOUDFOLDER, txtRemoto.getText()));
+            try {
+                Config.setConfig(new Config(ConfigList.LOCALFOLDER, FormatLocalPath.OneBarToTwoBars(txtLocal.getText())));
+                Writer.write(new LeituraMaquina(0.0, 0.0, "Alteração de repositorio"));
+                Config.setConfig(new Config(ConfigList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
+                Config.setConfig(new Config(ConfigList.CLOUDFOLDER, txtRemoto.getText()));
+                Alerts.showAlert("Diretorios Salvos", "Os diretorios foram alterados com sucesso", "", TypePane.INFORMATION);
+                this.dispose();
+            } catch (Exception e) {
+                Alerts.showAlert("Diretorio Inválido", "O caminho informado: " + FormatLocalPath.TwoBarsToOneBar(Config.loadConfig(ConfigList.LOCALFOLDER)) + " não existe.", "", TypePane.ERRO);
+                Config.setConfig(new Config(ConfigList.LOCALFOLDER, currentPath));
+            }
             
+            
+
         }
-        
+
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     /**
