@@ -21,14 +21,14 @@ import org.jfree.ui.RefineryUtilities;
  *
  * @author Herbert
  */
-public class ViewTemperatura extends javax.swing.JFrame {
+public class ViewMain extends javax.swing.JFrame {
 
     /**
      * Creates new form ViewTemperaura
      */
-    public ViewTemperatura() {
+    public ViewMain() {
         initComponents();
-        ArduinoSerial arduino = new ArduinoSerial(Config.loadConfig(ConfigList.ArduinoCom));
+        ArduinoSerial arduino = new ArduinoSerial(Config.loadConfig(ConfigList.ARDUINOCOM));
         String log = "Inicializando o Sistema";
         geraLog(log);
         carregaGrafico();
@@ -118,8 +118,9 @@ public class ViewTemperatura extends javax.swing.JFrame {
         lblGrafico = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        itemGrafico = new javax.swing.JMenuItem();
+        ItemConfig = new javax.swing.JMenuItem();
+        itemOffSet = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -245,26 +246,34 @@ public class ViewTemperatura extends javax.swing.JFrame {
 
         jMenu1.setText("Menu");
 
-        jMenuItem2.setText("Graficos");
-        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
+        itemGrafico.setText("Graficos");
+        itemGrafico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem2MouseClicked(evt);
+                itemGraficoMouseClicked(evt);
             }
         });
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        itemGrafico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                itemGraficoActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu1.add(itemGrafico);
 
-        jMenuItem3.setText("Configurações");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        ItemConfig.setText("Configurações");
+        ItemConfig.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                ItemConfigActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMenu1.add(ItemConfig);
+
+        itemOffSet.setText("Ajustes OffSet");
+        itemOffSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemOffSetActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemOffSet);
 
         jMenuBar1.add(jMenu1);
 
@@ -313,22 +322,27 @@ public class ViewTemperatura extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        ViewHelp viewHelp = new ViewHelp(this, rootPaneCheckingEnabled);
+        ViewRegistro viewHelp = new ViewRegistro(this, rootPaneCheckingEnabled);
         viewHelp.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void itemGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGraficoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_itemGraficoActionPerformed
 
-    private void jMenuItem2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseClicked
+    private void itemGraficoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemGraficoMouseClicked
         
-    }//GEN-LAST:event_jMenuItem2MouseClicked
+    }//GEN-LAST:event_itemGraficoMouseClicked
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void ItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemConfigActionPerformed
         ViewConfiguracao viewConfiguracao = new ViewConfiguracao(this, rootPaneCheckingEnabled);
         viewConfiguracao.setVisible(rootPaneCheckingEnabled);
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_ItemConfigActionPerformed
+
+    private void itemOffSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemOffSetActionPerformed
+        ViewOffset viewOffset = new ViewOffset(this, rootPaneCheckingEnabled);
+        viewOffset.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_itemOffSetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,21 +361,23 @@ public class ViewTemperatura extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewTemperatura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewTemperatura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewTemperatura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewTemperatura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewTemperatura().setVisible(true);
+                new ViewMain().setVisible(true);
             }
         });
     }
@@ -397,6 +413,9 @@ public class ViewTemperatura extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ItemConfig;
+    private javax.swing.JMenuItem itemGrafico;
+    private javax.swing.JMenuItem itemOffSet;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -405,8 +424,6 @@ public class ViewTemperatura extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblEstado;

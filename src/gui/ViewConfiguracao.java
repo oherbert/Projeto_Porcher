@@ -6,11 +6,13 @@
 package gui;
 
 import gui.util.Alerts;
-import gui.util.Constraints;
-import javafx.scene.control.Alert;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JTextField;
 import model.util.Config;
 import model.enums.ConfigList;
 import model.enums.TypePane;
+import gui.util.CheckTextField;
 
 /**
  *
@@ -28,9 +30,8 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         String[] lstCom = new String[]{"COM1","COM2","COM3","COM4","COM5","COM6","COM7","COM8","COM9"};
         for(String lst:lstCom){
         cboCom.addItem(lst);
-        txtLocal.setText(Config.loadConfig(ConfigList.LocalFolder));
-        txtRemoto.setText(Config.loadConfig(ConfigList.CloudFolder));
-        
+        txtLocal.setText(Config.loadConfig(ConfigList.LOCALFOLDER));
+        txtRemoto.setText(Config.loadConfig(ConfigList.CLOUDFOLDER));        
             
     }
     }
@@ -127,16 +128,18 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     }//GEN-LAST:event_cboComActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        if ("".equals(txtLocal.getText().trim()) || "".equals(txtRemoto.getText().trim()) ||
-            txtLocal.getText() == null || txtRemoto.getText() == null){
+            List<JTextField> lst = new ArrayList<>();
+            lst.add(txtLocal);
+            lst.add(txtRemoto);
+        if (CheckTextField.emptyList(lst) == true){
             
-            Alerts.showAlert("Campos não preenchidos", "Erro ao preencher", "Preencher todos os campos solicitados",TypePane.ERRO);
+            Alerts.showAlert("Campos não preenchidos", "Preencher todos os campos solicitados", "",TypePane.ERRO);
         }
         
         else {
-            Config.setConfig(new Config(ConfigList.ArduinoCom.toString(), cboCom.getSelectedItem().toString()));
-            Config.setConfig(new Config(ConfigList.LocalFolder.toString(), txtLocal.getText()));
-            Config.setConfig(new Config(ConfigList.CloudFolder.toString(), txtRemoto.getText()));
+            Config.setConfig(new Config(ConfigList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
+            Config.setConfig(new Config(ConfigList.LOCALFOLDER, txtLocal.getText()));
+            Config.setConfig(new Config(ConfigList.CLOUDFOLDER, txtRemoto.getText()));
             
         }
         

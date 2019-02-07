@@ -20,7 +20,7 @@ public class Gravador {
     
     public static void write(LeituraMaquina leitura){
         
-        File file = new File(Config.loadConfig(ConfigList.LocalFolder));
+        File file = new File(Config.loadConfig(ConfigList.LOCALFOLDER));
         File[] folders = file.listFiles(File::isDirectory);
         
         boolean checkFolder = false;
@@ -31,7 +31,7 @@ public class Gravador {
                 break;
             }
         }
-        String filePath = (Config.loadConfig(ConfigList.LocalFolder) + Utils.getMesAnoFormated_());
+        String filePath = (Config.loadConfig(ConfigList.LOCALFOLDER) + Utils.getMesAnoFormated_());
         
         if (checkFolder == false){
         boolean createFolder = new File(filePath).mkdir();

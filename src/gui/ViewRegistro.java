@@ -18,15 +18,15 @@ import java.net.URISyntaxException;
  *
  * @author Herbert
  */
-public class ViewHelp extends javax.swing.JDialog {
+public class ViewRegistro extends javax.swing.JDialog {
 
     /**
      * Creates new form ViewHelp
      */
-    public ViewHelp(java.awt.Frame parent, boolean modal) {
+    public ViewRegistro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        txtLink.setText(Config.loadConfig(ConfigList.CloudFolder));
+        txtLink.setText(Config.loadConfig(ConfigList.CLOUDFOLDER));
     }
 
     /**
@@ -109,7 +109,7 @@ public class ViewHelp extends javax.swing.JDialog {
     private void linkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkLabelMouseClicked
         try {
 
-            Desktop.getDesktop().browse(new URI(Config.loadConfig(ConfigList.CloudFolder)));
+            Desktop.getDesktop().browse(new URI(Config.loadConfig(ConfigList.CLOUDFOLDER)));
 
         } catch (IOException | URISyntaxException e1) {
             System.out.println("Erro ao tentar abri a Url: " + e1.getMessage());
@@ -146,20 +146,21 @@ public class ViewHelp extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewHelp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewHelp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewHelp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewHelp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ViewHelp dialog = new ViewHelp(new javax.swing.JFrame(), true);
+                ViewRegistro dialog = new ViewRegistro(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

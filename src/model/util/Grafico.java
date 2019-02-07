@@ -72,7 +72,7 @@ public class Grafico extends ApplicationFrame {
         final TimeSeries z1 = new TimeSeries("Temperatura Secagem", Minute.class);
         final TimeSeries z2 = new TimeSeries("Temperatura Vulcanização", Minute.class);
 
-        String path = Config.loadConfig(ConfigList.LocalFolder) + Utils.getMesAnoFormated_() + "\\" + Utils.getDataFormated_() + ".txt";
+        String path = Config.loadConfig(ConfigList.LOCALFOLDER) + Utils.getMesAnoFormated_() + "\\" + Utils.getDataFormated_() + ".txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line = br.readLine();
