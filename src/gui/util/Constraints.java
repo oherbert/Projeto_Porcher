@@ -1,7 +1,5 @@
 package gui.util;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
@@ -33,12 +31,11 @@ public class Constraints {
 
     public static void setTextFieldDouble(JTextField txt) {
         txt.addKeyListener(new KeyAdapter() {
+            
             public void keyTyped(KeyEvent e) {
                 char letter = e.getKeyChar();
-                if (e.toString() != null && !txt.getText().matches("([\\-]\\d*)?\\d*([\\.]\\d*)?")) {
-                    e.consume();
-                } else if (letter == '.' || letter =='-') {
-                } else if (!Character.isDigit(letter)) {
+                String regex = txt.getText() + letter;
+                if (e.toString() != null && !regex.matches("([\\-]\\d*)?\\d*([\\.]\\d*)?") || "-.".equals(regex)) {
                     e.consume();
                 }
             }

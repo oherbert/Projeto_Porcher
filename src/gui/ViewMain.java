@@ -32,6 +32,7 @@ public class ViewMain extends javax.swing.JFrame {
         String log = "Inicializando o Sistema";
         geraLog(log);
         carregaGrafico();
+         this.setExtendedState(MAXIMIZED_BOTH);
 
         Thread tr1 = new Thread() {
             @Override
@@ -121,10 +122,10 @@ public class ViewMain extends javax.swing.JFrame {
         lblGrafico = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        itemGrafico = new javax.swing.JMenuItem();
-        ItemConfig = new javax.swing.JMenuItem();
         itemOffSet = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        ItemConfig = new javax.swing.JMenuItem();
+        itemHistorico = new javax.swing.JMenuItem();
+        itemRegistro = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -141,6 +142,7 @@ public class ViewMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Temperatura");
         setBackground(new java.awt.Color(204, 204, 255));
+        setResizable(false);
 
         jPanel2.setBackground(java.awt.Color.white);
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -246,18 +248,13 @@ public class ViewMain extends javax.swing.JFrame {
 
         jMenu1.setText("Menu");
 
-        itemGrafico.setText("Graficos");
-        itemGrafico.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                itemGraficoMouseClicked(evt);
-            }
-        });
-        itemGrafico.addActionListener(new java.awt.event.ActionListener() {
+        itemOffSet.setText("Ajustes OffSet");
+        itemOffSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemGraficoActionPerformed(evt);
+                itemOffSetActionPerformed(evt);
             }
         });
-        jMenu1.add(itemGrafico);
+        jMenu1.add(itemOffSet);
 
         ItemConfig.setText("Configurações");
         ItemConfig.addActionListener(new java.awt.event.ActionListener() {
@@ -267,17 +264,22 @@ public class ViewMain extends javax.swing.JFrame {
         });
         jMenu1.add(ItemConfig);
 
-        itemOffSet.setText("Ajustes OffSet");
-        itemOffSet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemOffSetActionPerformed(evt);
+        itemHistorico.setText("Histórico");
+        itemHistorico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itemHistoricoMouseClicked(evt);
             }
         });
-        jMenu1.add(itemOffSet);
+        itemHistorico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemHistoricoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemHistorico);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Ajuda");
+        itemRegistro.setText("Ajuda");
 
         jMenuItem1.setText("Registros");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -285,9 +287,9 @@ public class ViewMain extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        itemRegistro.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(itemRegistro);
 
         setJMenuBar(jMenuBar1);
 
@@ -322,17 +324,18 @@ public class ViewMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        ViewRegistro viewHelp = new ViewRegistro(this, rootPaneCheckingEnabled);
-        viewHelp.setVisible(rootPaneCheckingEnabled);
+        ViewRegistro viewRegistro = new ViewRegistro(this, rootPaneCheckingEnabled);
+        viewRegistro.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void itemGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGraficoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemGraficoActionPerformed
+    private void itemHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemHistoricoActionPerformed
+         ViewHistoric viewHistoric = new ViewHistoric();
+         viewHistoric.setVisible(true);
+    }//GEN-LAST:event_itemHistoricoActionPerformed
 
-    private void itemGraficoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemGraficoMouseClicked
+    private void itemHistoricoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemHistoricoMouseClicked
         
-    }//GEN-LAST:event_itemGraficoMouseClicked
+    }//GEN-LAST:event_itemHistoricoMouseClicked
 
     private void ItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemConfigActionPerformed
         ViewConfiguracao viewConfiguracao = new ViewConfiguracao(this, rootPaneCheckingEnabled);
@@ -414,14 +417,14 @@ public class ViewMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ItemConfig;
-    private javax.swing.JMenuItem itemGrafico;
+    private javax.swing.JMenuItem itemHistorico;
     private javax.swing.JMenuItem itemOffSet;
+    private javax.swing.JMenu itemRegistro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;

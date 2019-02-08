@@ -49,7 +49,7 @@ public class Grafico extends ApplicationFrame {
                 true, true, false);
 
         ChartPanel chartPanel = new ChartPanel(xylineChart);
-        chartPanel.setPreferredSize(new Dimension(400, 400));
+        chartPanel.setPreferredSize(new Dimension(1100, 500));
         final XYPlot plot = xylineChart.getXYPlot();
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
@@ -62,7 +62,7 @@ public class Grafico extends ApplicationFrame {
 
         try {
             png = new FileOutputStream("Grafico.png");
-            ChartUtilities.writeChartAsPNG(png, xylineChart, 1500, 400);
+            ChartUtilities.writeChartAsPNG(png, xylineChart, 1100, 500);
         } catch (IOException e) {
             System.err.println("Erro ao construir png Grafico: " + e.getMessage());
         }
