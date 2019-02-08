@@ -32,7 +32,7 @@ public class ViewMain extends javax.swing.JFrame {
         String log = "Inicializando o Sistema";
         geraLog(log);
         carregaGrafico();
-         this.setExtendedState(MAXIMIZED_BOTH);
+        //this.setExtendedState(MAXIMIZED_BOTH);
 
         Thread tr1 = new Thread() {
             @Override

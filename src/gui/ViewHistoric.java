@@ -5,6 +5,9 @@
  */
 package gui;
 
+import java.io.File;
+import model.util.FileLoader;
+
 /**
  *
  * @author Herbert
@@ -17,6 +20,9 @@ public class ViewHistoric extends javax.swing.JFrame {
     public ViewHistoric() {
         initComponents();
          this.setExtendedState(MAXIMIZED_BOTH);
+         for(File folder: FileLoader.loadFolder()){
+            cboMes.addItem(folder.getName());
+         }
          
     }
 
@@ -29,33 +35,69 @@ public class ViewHistoric extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         cboMes = new javax.swing.JComboBox<>();
         cboDia = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        optGrafico = new javax.swing.JRadioButton();
-        optTabela = new javax.swing.JRadioButton();
         btnBuscar = new javax.swing.JButton();
+        pnlGrafico = new javax.swing.JPanel();
+        sclGrafico = new javax.swing.JScrollPane();
+        lblInfo = new javax.swing.JLabel();
+        optTabela = new javax.swing.JRadioButton();
+        optGrafico = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(600, 400));
 
+        cboMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mês e ano" }));
+        cboMes.setToolTipText("\"Selecione Mes e ano\"");
         cboMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboMesActionPerformed(evt);
             }
         });
 
+        cboDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dia" }));
+        cboDia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboDiaActionPerformed(evt);
+            }
+        });
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Selecione a data da busca:");
 
-        optGrafico.setText("Grafico");
-
-        optTabela.setText("Tabela");
-
         btnBuscar.setBackground(new java.awt.Color(204, 204, 255));
         btnBuscar.setText("Carregar");
+
+        pnlGrafico.setBackground(new java.awt.Color(255, 255, 255));
+        pnlGrafico.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        sclGrafico.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblInfo.setBackground(new java.awt.Color(255, 255, 255));
+        lblInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        sclGrafico.setViewportView(lblInfo);
+
+        javax.swing.GroupLayout pnlGraficoLayout = new javax.swing.GroupLayout(pnlGrafico);
+        pnlGrafico.setLayout(pnlGraficoLayout);
+        pnlGraficoLayout.setHorizontalGroup(
+            pnlGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(sclGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
+        );
+        pnlGraficoLayout.setVerticalGroup(
+            pnlGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(sclGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+        );
+
+        buttonGroup1.add(optTabela);
+        optTabela.setText("Tabela");
+
+        buttonGroup1.add(optGrafico);
+        optGrafico.setSelected(true);
+        optGrafico.setText("Grafico");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,20 +106,26 @@ public class ViewHistoric extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(optGrafico)
-                        .addGap(36, 36, 36)
-                        .addComponent(optTabela)
-                        .addGap(64, 64, 64)
-                        .addComponent(btnBuscar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(optTabela)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(211, 211, 211)
+                        .addGap(98, 98, 98)
+                        .addComponent(btnBuscar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
                         .addComponent(cboMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(83, 83, 83)
-                        .addComponent(cboDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(158, Short.MAX_VALUE))))
+                        .addGap(78, 78, 78)
+                        .addComponent(cboDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(266, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pnlGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,15 +140,35 @@ public class ViewHistoric extends javax.swing.JFrame {
                     .addComponent(optGrafico)
                     .addComponent(optTabela)
                     .addComponent(btnBuscar))
-                .addContainerGap(346, Short.MAX_VALUE))
+                .addContainerGap(448, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(96, 96, 96)
+                    .addComponent(pnlGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMesActionPerformed
-        // TODO add your handling code here:
+       if(!"Mês e ano".equals(cboMes.getSelectedItem().toString())){
+        
+           for(File file: FileLoader.loadFile(cboMes.getSelectedItem().toString())){
+            
+            String[] newFile = file.getName().split("_");
+            
+            
+            if(newFile.length >= 3 ){
+            cboDia.addItem(newFile[0]);
+         }
+            
+        }}
     }//GEN-LAST:event_cboMesActionPerformed
+
+    private void cboDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboDiaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,10 +208,14 @@ public class ViewHistoric extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboDia;
     private javax.swing.JComboBox<String> cboMes;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblInfo;
     private javax.swing.JRadioButton optGrafico;
     private javax.swing.JRadioButton optTabela;
+    private javax.swing.JPanel pnlGrafico;
+    private javax.swing.JScrollPane sclGrafico;
     // End of variables declaration//GEN-END:variables
 }
