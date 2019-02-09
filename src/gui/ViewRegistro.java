@@ -5,8 +5,8 @@
  */
 package gui;
 
-import model.util.Config;
-import model.enums.ConfigList;
+import model.util.Path;
+import model.enums.PathList;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -26,7 +26,7 @@ public class ViewRegistro extends javax.swing.JDialog {
     public ViewRegistro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        txtLink.setText(Config.loadConfig(ConfigList.CLOUDFOLDER));
+        txtLink.setText(Path.loadPath(PathList.CLOUDFOLDER));
     }
 
     /**
@@ -109,7 +109,7 @@ public class ViewRegistro extends javax.swing.JDialog {
     private void linkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkLabelMouseClicked
         try {
 
-            Desktop.getDesktop().browse(new URI(Config.loadConfig(ConfigList.CLOUDFOLDER)));
+            Desktop.getDesktop().browse(new URI(Path.loadPath(PathList.CLOUDFOLDER)));
 
         } catch (IOException | URISyntaxException e1) {
             System.out.println("Erro ao tentar abri a Url: " + e1.getMessage());

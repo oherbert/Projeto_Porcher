@@ -6,16 +6,13 @@
 package gui;
 
 import model.util.Writer;
-import model.util.Config;
-import model.enums.ConfigList;
+import model.util.Path;
+import model.enums.PathList;
 import model.util.Utils;
 import arduino.util.ArduinoSerial;
 import model.util.Grafico;
 import java.awt.Color;
-import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 import model.entities.LeituraMaquina;
-import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -28,11 +25,11 @@ public class ViewMain extends javax.swing.JFrame {
      */
     public ViewMain() {
         initComponents();
-        ArduinoSerial arduino = new ArduinoSerial(Config.loadConfig(ConfigList.ARDUINOCOM));
+        ArduinoSerial arduino = new ArduinoSerial(Path.loadPath(PathList.ARDUINOCOM));
         String log = "Inicializando o Sistema";
         geraLog(log);
-        carregaGrafico();
-        //this.setExtendedState(MAXIMIZED_BOTH);
+        Grafico.carregaGrafico(Utils.getDataFormated_(), lblGrafico, "Grafico", 1050, 500,1);
+        this.setExtendedState(MAXIMIZED_BOTH);
 
         Thread tr1 = new Thread() {
             @Override
@@ -55,8 +52,8 @@ public class ViewMain extends javax.swing.JFrame {
                             String cmdSalvar = dados[3];
 
                             try {
-                                Double tempSec1 = Double.parseDouble(z1) + Double.parseDouble(Config.loadConfig(ConfigList.OFFSETSECAGEM_1));
-                                Double tempVul1 = Double.parseDouble(z2) + Double.parseDouble(Config.loadConfig(ConfigList.OFFSETVULCANICACAO_1));
+                                Double tempSec1 = Double.parseDouble(z1) + Double.parseDouble(Path.loadPath(PathList.OFFSETSECAGEM_1));
+                                Double tempVul1 = Double.parseDouble(z2) + Double.parseDouble(Path.loadPath(PathList.OFFSETVULCANICACAO_1));
                                 
                                 lblZ1.setText(tempSec1.toString());
                                 lblZ2.setText(tempVul1.toString());
@@ -72,7 +69,7 @@ public class ViewMain extends javax.swing.JFrame {
                                 if ("salvar".equals(cmdSalvar)) {
                                     System.out.println("Registro " + Utils.getDataSistema());
                                     Writer.write(leitura);
-                                    carregaGrafico();
+                                    Grafico.carregaGrafico(Utils.getDataFormated_(), lblGrafico, "Grafico", 1050, 500, 1);
                                 }
                             } catch (NumberFormatException e) {
                                 System.out.println("Erro ao carregar valores");
@@ -338,8 +335,8 @@ public class ViewMain extends javax.swing.JFrame {
     }//GEN-LAST:event_itemHistoricoMouseClicked
 
     private void ItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemConfigActionPerformed
-        ViewConfiguracao viewConfiguracao = new ViewConfiguracao(this, rootPaneCheckingEnabled);
-        viewConfiguracao.setVisible(rootPaneCheckingEnabled);
+        ViewConfiguracao viewPathuracao = new ViewConfiguracao(this, rootPaneCheckingEnabled);
+        viewPathuracao.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_ItemConfigActionPerformed
 
     private void itemOffSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemOffSetActionPerformed
@@ -396,23 +393,6 @@ public class ViewMain extends javax.swing.JFrame {
         txtLog.setDisabledTextColor(Color.red);
     }
 
-    private void carregaGrafico() {
-        Grafico chart = new Grafico("Temperatura de Secagem dos fornos ICBT's",
-                "Temperatura do Forno");
-        chart.pack();
-        RefineryUtilities.centerFrameOnScreen(chart);
-        chart.setVisible(false);
-        final String path = "Grafico.png";
-
-        try {
-            java.awt.Image nGrafico = Toolkit.getDefaultToolkit().getImage(path);
-            nGrafico.flush();
-            lblGrafico.setIcon(new ImageIcon(nGrafico));
-
-        } catch (NullPointerException e) {
-            erroLog("Erro ao gerar o grafico");
-        }
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

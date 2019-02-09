@@ -9,7 +9,7 @@ package model.enums;
  *
  * @author Herbert
  */
-public enum ConfigList {
+public enum PathList {
    ARDUINOCOM("ArduinoCom"),
    CLOUDFOLDER("CloudFolder"),
    LOCALFOLDER("LocalFolder"),
@@ -24,7 +24,7 @@ public enum ConfigList {
    
    private final String path;
 
-    ConfigList(String thisPath) {
+    PathList(String thisPath) {
         path = thisPath;
     }
    public String getPath(){

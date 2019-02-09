@@ -5,7 +5,7 @@
  */
 package model.util;
 
-import model.enums.ConfigList;
+import model.enums.PathList;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,7 +20,7 @@ public class Writer {
     
     public static void write(LeituraMaquina leitura){
         
-        File file = new File(Config.loadConfig(ConfigList.LOCALFOLDER) + "\\");
+        File file = new File(Path.loadPath(PathList.LOCALFOLDER) + "\\");
         File[] folders = file.listFiles(File::isDirectory);
         
         boolean checkFolder = false;
@@ -31,7 +31,7 @@ public class Writer {
                 break;
             }
         }
-        String filePath = (Config.loadConfig(ConfigList.LOCALFOLDER)+ "\\" + Utils.getMesAnoFormated_());
+        String filePath = (Path.loadPath(PathList.LOCALFOLDER)+ "\\" + Utils.getMesAnoFormated_());
         
         if (checkFolder == false){ // Cria uma pasta do mês, se não houver
         boolean createFolder = new File(filePath).mkdir();

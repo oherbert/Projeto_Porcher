@@ -6,7 +6,8 @@
 package gui;
 
 import java.io.File;
-import model.util.FileLoader;
+import model.util.Loader;
+import model.util.Grafico;
 
 /**
  *
@@ -20,7 +21,7 @@ public class ViewHistoric extends javax.swing.JFrame {
     public ViewHistoric() {
         initComponents();
          this.setExtendedState(MAXIMIZED_BOTH);
-         for(File folder: FileLoader.loadFolder()){
+         for(File folder: Loader.folder()){
             cboMes.addItem(folder.getName());
          }
          
@@ -71,6 +72,11 @@ public class ViewHistoric extends javax.swing.JFrame {
 
         btnBuscar.setBackground(new java.awt.Color(204, 204, 255));
         btnBuscar.setText("Carregar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         pnlGrafico.setBackground(new java.awt.Color(255, 255, 255));
         pnlGrafico.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -152,9 +158,11 @@ public class ViewHistoric extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMesActionPerformed
-       if(!"Mês e ano".equals(cboMes.getSelectedItem().toString())){
+       cboDia.removeAllItems();
+       cboDia.addItem("Dia");
+        if(!"Mês e ano".equals(cboMes.getSelectedItem().toString())){
         
-           for(File file: FileLoader.loadFile(cboMes.getSelectedItem().toString())){
+           for(File file: Loader.file(cboMes.getSelectedItem().toString())){
             
             String[] newFile = file.getName().split("_");
             
@@ -169,6 +177,14 @@ public class ViewHistoric extends javax.swing.JFrame {
     private void cboDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDiaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboDiaActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if (!cboMes.getSelectedItem().equals("Mês e ano") && !cboDia.getSelectedItem().equals("Dia") ){
+            if (optGrafico.isSelected()){
+            Grafico.carregaGrafico(cboDia.getSelectedItem().toString()+ "_" +cboMes.getSelectedItem().toString(),
+                    lblInfo, "GraficoHistorico", 2500, 600, 1000);}
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,7 +221,17 @@ public class ViewHistoric extends javax.swing.JFrame {
             }
         });
     }
+    
+    
 
+    
+        private void carregaTabela(){
+            
+            
+            
+         //   JTable table = new JTable(rowData, columnNames);
+        }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.ButtonGroup buttonGroup1;

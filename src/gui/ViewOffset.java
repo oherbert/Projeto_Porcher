@@ -8,9 +8,9 @@ package gui;
 import gui.util.Alerts;
 import gui.util.CheckTextField;
 import gui.util.Constraints;
-import model.enums.ConfigList;
+import model.enums.PathList;
 import model.enums.TypePane;
-import model.util.Config;
+import model.util.Path;
 
 /**
  *
@@ -42,14 +42,14 @@ public class ViewOffset extends javax.swing.JDialog {
         Constraints.setTextFieldDouble(txtVulcanizacao4);
         Constraints.setTextFieldMaxLength(txtVulcanizacao4, 5);
         
-        txtSecagem1.setText(Config.loadConfig(ConfigList.OFFSETSECAGEM_1));
-        txtSecagem2.setText(Config.loadConfig(ConfigList.OFFSETSECAGEM_2));
-        txtSecagem3.setText(Config.loadConfig(ConfigList.OFFSETSECAGEM_3));
-        txtSecagem4.setText(Config.loadConfig(ConfigList.OFFSETSECAGEM_4));
-        txtVulcanizacao1.setText(Config.loadConfig(ConfigList.OFFSETVULCANICACAO_1));
-        txtVulcanizacao2.setText(Config.loadConfig(ConfigList.OFFSETVULCANICACAO_2));
-        txtVulcanizacao3.setText(Config.loadConfig(ConfigList.OFFSETVULCANICACAO_3));
-        txtVulcanizacao4.setText(Config.loadConfig(ConfigList.OFFSETVULCANICACAO_4));
+        txtSecagem1.setText(Path.loadPath(PathList.OFFSETSECAGEM_1));
+        txtSecagem2.setText(Path.loadPath(PathList.OFFSETSECAGEM_2));
+        txtSecagem3.setText(Path.loadPath(PathList.OFFSETSECAGEM_3));
+        txtSecagem4.setText(Path.loadPath(PathList.OFFSETSECAGEM_4));
+        txtVulcanizacao1.setText(Path.loadPath(PathList.OFFSETVULCANICACAO_1));
+        txtVulcanizacao2.setText(Path.loadPath(PathList.OFFSETVULCANICACAO_2));
+        txtVulcanizacao3.setText(Path.loadPath(PathList.OFFSETVULCANICACAO_3));
+        txtVulcanizacao4.setText(Path.loadPath(PathList.OFFSETVULCANICACAO_4));
     }
 
     /**
@@ -221,51 +221,51 @@ public class ViewOffset extends javax.swing.JDialog {
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
 
         if (CheckTextField.emptyField(txtSecagem1) == false) {
-            Config.setConfig(new Config(ConfigList.OFFSETSECAGEM_1, txtSecagem1.getText()));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_1, txtSecagem1.getText()));
         } else {
-            Config.setConfig(new Config(ConfigList.OFFSETSECAGEM_1, "0"));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_1, "0"));
         }
 
         if (CheckTextField.emptyField(txtSecagem2) == false) {
-            Config.setConfig(new Config(ConfigList.OFFSETSECAGEM_2, txtSecagem2.getText()));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_2, txtSecagem2.getText()));
         } else {
-            Config.setConfig(new Config(ConfigList.OFFSETSECAGEM_2, "0"));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_2, "0"));
         }
 
         if (CheckTextField.emptyField(txtSecagem3) == false) {
-            Config.setConfig(new Config(ConfigList.OFFSETSECAGEM_3, txtSecagem3.getText()));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_3, txtSecagem3.getText()));
         } else {
-            Config.setConfig(new Config(ConfigList.OFFSETSECAGEM_3, "0"));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_3, "0"));
         }
 
         if (CheckTextField.emptyField(txtSecagem4) == false) {
-            Config.setConfig(new Config(ConfigList.OFFSETSECAGEM_4, txtSecagem4.getText()));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_4, txtSecagem4.getText()));
         } else {
-            Config.setConfig(new Config(ConfigList.OFFSETSECAGEM_4, "0"));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_4, "0"));
         }
 
         if (CheckTextField.emptyField(txtVulcanizacao1) == false) {
-            Config.setConfig(new Config(ConfigList.OFFSETVULCANICACAO_1, txtVulcanizacao1.getText()));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_1, txtVulcanizacao1.getText()));
         } else {
-            Config.setConfig(new Config(ConfigList.OFFSETVULCANICACAO_1, "0"));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_1, "0"));
         }
 
         if (CheckTextField.emptyField(txtVulcanizacao2) == false) {
-            Config.setConfig(new Config(ConfigList.OFFSETVULCANICACAO_2, txtVulcanizacao2.getText()));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_2, txtVulcanizacao2.getText()));
         } else {
-            Config.setConfig(new Config(ConfigList.OFFSETVULCANICACAO_2, "0"));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_2, "0"));
         }
         
         if (CheckTextField.emptyField(txtVulcanizacao3) == false){
-            Config.setConfig(new Config(ConfigList.OFFSETVULCANICACAO_3, txtVulcanizacao3.getText()));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_3, txtVulcanizacao3.getText()));
         }else{
-            Config.setConfig(new Config(ConfigList.OFFSETVULCANICACAO_3, "0"));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_3, "0"));
         }
         
         if (CheckTextField.emptyField(txtVulcanizacao4) == false){
-            Config.setConfig(new Config(ConfigList.OFFSETVULCANICACAO_4, txtVulcanizacao4.getText()));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_4, txtVulcanizacao4.getText()));
         }else{
-            Config.setConfig(new Config(ConfigList.OFFSETVULCANICACAO_4, "0"));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_4, "0"));
         }
         
         Alerts.showAlert("Valores Salvos", "Os valores foram salvos com sucesso", "", TypePane.INFORMATION);

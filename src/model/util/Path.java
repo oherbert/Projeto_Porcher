@@ -13,18 +13,18 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-import model.enums.ConfigList;
+import model.enums.PathList;
 
 /**
  *
  * @author Herbert
  */
-public class Config {
+public class Path {
 
-    private ConfigList configList;
+    private PathList configList;
     private String valor;
 
-    public Config(ConfigList configList, String valor) {
+    public Path(PathList configList, String valor) {
         this.configList = configList;
         this.valor = valor;
     }
@@ -47,14 +47,14 @@ public class Config {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Config other = (Config) obj;
+        final Path other = (Path) obj;
         if (!Objects.equals(this.configList, other.configList)) {
             return false;
         }
         return true;
     }
 
-    public ConfigList getParametro() {
+    public PathList getParametro() {
         return configList;
     }
 
@@ -62,7 +62,7 @@ public class Config {
         return valor;
     }
 
-    public static String loadConfig(ConfigList configList) {
+    public static String loadPath(PathList configList) {
 
         String path = "Config.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -84,17 +84,16 @@ public class Config {
         return null;
     }
 
-    public static void setConfig(Config config) {
+    public static void setPath(Path config) {
         String path = "Config.txt";
-        Map<String, String> mapConfig = new TreeMap<>();
+        Map<String, String> mapPath = new TreeMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line = br.readLine();
 
             while (line != null) {
                 String[] linha = line.split(": ");
-                System.out.println(linha[0] + " e " + linha[1]);
-                mapConfig.put(linha[0], linha[1]);
+                mapPath.put(linha[0], linha[1]);
                 line = br.readLine();
             }
 
@@ -103,10 +102,10 @@ public class Config {
         }
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, false))) {
-            mapConfig.put(config.getParametro().getPath(), config.getValor());
+            mapPath.put(config.getParametro().getPath(), config.getValor());
 
-            for (String key : mapConfig.keySet()) {
-                bw.write(key + ": " + mapConfig.get(key));
+            for (String key : mapPath.keySet()) {
+                bw.write(key + ": " + mapPath.get(key));
                 bw.newLine();
             }
         } catch (IOException e) {

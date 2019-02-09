@@ -9,8 +9,8 @@ import gui.util.Alerts;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextField;
-import model.util.Config;
-import model.enums.ConfigList;
+import model.util.Path;
+import model.enums.PathList;
 import model.enums.TypePane;
 import gui.util.CheckTextField;
 import gui.util.FormatLocalPath;
@@ -33,8 +33,8 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         String[] lstCom = new String[]{"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"};
         for (String lst : lstCom) {
             cboCom.addItem(lst);
-            txtLocal.setText(FormatLocalPath.TwoBarsToOneBar(Config.loadConfig(ConfigList.LOCALFOLDER)));
-            txtRemoto.setText(Config.loadConfig(ConfigList.CLOUDFOLDER));
+            txtLocal.setText(FormatLocalPath.TwoBarsToOneBar(Path.loadPath(PathList.LOCALFOLDER)));
+            txtRemoto.setText(Path.loadPath(PathList.CLOUDFOLDER));
         }
     }
 
@@ -137,18 +137,18 @@ public class ViewConfiguracao extends javax.swing.JDialog {
 
             Alerts.showAlert("Campos não preenchidos", "Preencher todos os campos solicitados", "", TypePane.ERRO);
         } else {
-            String currentPath = Config.loadConfig(ConfigList.LOCALFOLDER);
+            String currentPath = Path.loadPath(PathList.LOCALFOLDER);
             
             try {
-                Config.setConfig(new Config(ConfigList.LOCALFOLDER, FormatLocalPath.OneBarToTwoBars(txtLocal.getText())));
+                Path.setPath(new Path(PathList.LOCALFOLDER, FormatLocalPath.OneBarToTwoBars(txtLocal.getText())));
                 Writer.write(new LeituraMaquina(0.0, 0.0, "Alteração de repositorio"));
-                Config.setConfig(new Config(ConfigList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
-                Config.setConfig(new Config(ConfigList.CLOUDFOLDER, txtRemoto.getText()));
+                Path.setPath(new Path(PathList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
+                Path.setPath(new Path(PathList.CLOUDFOLDER, txtRemoto.getText()));
                 Alerts.showAlert("Diretorios Salvos", "Os diretorios foram alterados com sucesso", "", TypePane.INFORMATION);
                 this.dispose();
             } catch (Exception e) {
-                Alerts.showAlert("Diretorio Inválido", "O caminho informado: " + FormatLocalPath.TwoBarsToOneBar(Config.loadConfig(ConfigList.LOCALFOLDER)) + " não existe.", "", TypePane.ERRO);
-                Config.setConfig(new Config(ConfigList.LOCALFOLDER, currentPath));
+                Alerts.showAlert("Diretorio Inválido", "O caminho informado: " + FormatLocalPath.TwoBarsToOneBar(Path.loadPath(PathList.LOCALFOLDER)) + " não existe.", "", TypePane.ERRO);
+                Path.setPath(new Path(PathList.LOCALFOLDER, currentPath));
             }
             
             
