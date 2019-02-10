@@ -28,7 +28,7 @@ public class ViewMain extends javax.swing.JFrame {
         ArduinoSerial arduino = new ArduinoSerial(Path.loadPath(PathList.ARDUINOCOM));
         String log = "Inicializando o Sistema";
         geraLog(log);
-        Grafico.carregaGrafico(Utils.getDataFormated_(), lblGrafico, "Grafico", 1050, 500,1);
+        Grafico.carregaGrafico(Utils.getDataFormated_(), sclGrafico, "Grafico", 1050, 500,1);
         //this.setExtendedState(MAXIMIZED_BOTH);
 
         Thread tr1 = new Thread() {
@@ -69,7 +69,7 @@ public class ViewMain extends javax.swing.JFrame {
                                 if ("salvar".equals(cmdSalvar)) {
                                     System.out.println("Registro " + Utils.getDataSistema());
                                     Writer.write(leitura);
-                                    Grafico.carregaGrafico(Utils.getDataFormated_(), lblGrafico, "Grafico", 1050, 500, 1);
+                                    Grafico.carregaGrafico(Utils.getDataFormated_(), sclGrafico, "Grafico", 1050, 500, 1);
                                 }
                             } catch (NumberFormatException e) {
                                 System.out.println("Erro ao carregar valores");

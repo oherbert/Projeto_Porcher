@@ -185,7 +185,7 @@ public class ViewHistoric extends javax.swing.JFrame {
             if (optGrafico.isSelected()) {
                 spaneInfo.add(lblInfo);
                 Grafico.carregaGrafico(cboDia.getSelectedItem().toString() + "_" + cboMes.getSelectedItem().toString(),
-                        lblInfo, "GraficoHistorico", 2500, 600, 1000);
+                        spaneInfo, "GraficoHistorico", 2500, 600, 1000);
             }
             else if(optTabela.isSelected()){
             Loader.fileContent(spaneInfo,cboDia.getSelectedItem().toString(),cboMes.getSelectedItem().toString());

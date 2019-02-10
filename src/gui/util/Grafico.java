@@ -27,6 +27,7 @@ import java.util.TimeZone;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import model.enums.TypePane;
 import model.util.Path;
 import org.jfree.chart.ChartPanel;
@@ -142,7 +143,7 @@ public class Grafico extends ApplicationFrame {
         return dataset;
     }
 
-    public static void carregaGrafico(String dia_mes_ano, JLabel label, String nomeGrafico, Integer width, Integer height, Integer hourLimit) {
+    public static void carregaGrafico(String dia_mes_ano, JScrollPane sPane, String nomeGrafico, Integer width, Integer height, Integer hourLimit) {
         Grafico chart = new Grafico("Temperatura de Secagem dos fornos ICBT's",
                 "Temperatura do Forno", dia_mes_ano, nomeGrafico, width, height, hourLimit);
         chart.pack();
@@ -153,7 +154,8 @@ public class Grafico extends ApplicationFrame {
         try {
             java.awt.Image nGrafico = Toolkit.getDefaultToolkit().getImage(path);
             nGrafico.flush();
-            label.setIcon(new ImageIcon(nGrafico));
+            sPane.setViewportView(new JLabel(new ImageIcon(nGrafico)));
+            //label.setIcon(new ImageIcon(nGrafico));
 
         } catch (NullPointerException e) {
             Alerts.showAlert("Erro ao gerar o grafico", "O Sistema não pode achar o arquivo para construção do grafico ",
