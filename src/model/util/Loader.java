@@ -9,6 +9,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.Icon;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import model.enums.PathList;
 
 /**
@@ -16,46 +21,52 @@ import model.enums.PathList;
  * @author Herbert
  */
 public class Loader {
-    
-    public static File[] folder(){
-    //List<String> folders = new ArrayList<>();
-    
-    File path = new File(Path.loadPath(PathList.LOCALFOLDER));
-    File[] folders = path.listFiles(File::isDirectory);
-    
-    
-    return folders;
+
+    public static File[] folder() {
+        //List<String> folders = new ArrayList<>();
+
+        File path = new File(Path.loadPath(PathList.LOCALFOLDER));
+        File[] folders = path.listFiles(File::isDirectory);
+
+        return folders;
     }
-    
-    public static File[] file(String selectedFolder){
-    //List<String> folders = new ArrayList<>();
-    
-    File path = new File(Path.loadPath(PathList.LOCALFOLDER)+ "\\"+ selectedFolder);
-    File[] folders = path.listFiles(File::isFile);
-    
-    return folders;
+
+    public static File[] file(String selectedFolder) {
+        //List<String> folders = new ArrayList<>();
+
+        File path = new File(Path.loadPath(PathList.LOCALFOLDER) + "\\" + selectedFolder);
+        File[] folders = path.listFiles(File::isFile);
+
+        return folders;
     }
-    
-    public static String[] fileContent (String path) {
-        String[] rowDatas = null;
-        
+
+    public static void fileContent(JScrollPane sPane, String dia, String mesAno) {
+
+        String[] title = new String[]{"Data hora", "Temp Secagem", "Temp Vulcanização", "Estado"};
+
+        JTable table = new JTable();
+
+        DefaultTableModel model = new DefaultTableModel(null, title);
+        table.setModel(model);
+        DefaultTableModel model2 = (DefaultTableModel) table.getModel();
+
+        String path = Path.loadPath(PathList.LOCALFOLDER) + "\\" + mesAno + "\\" + dia + "_" + mesAno + ".txt";
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+
             String line = br.readLine();
 
             while (line != null) {
-                rowDatas = line.split(",");                
+                String[] rowDatas = line.split(", ");
+
+                model2.addRow(rowDatas);
+
                 line = br.readLine();
             }
-
+            table.setModel(model2);
+            sPane.setViewportView(table);
         } catch (IOException e) {
             System.out.println("Erro ao carregar a tabela " + e.getMessage());
         }
-        
-        return rowDatas;
+
+    }
 }
-}
-
-
-
-
-

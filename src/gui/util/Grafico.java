@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.util;
+package gui.util;
 
 /**
  *
  * @author Herbert
  */
-import gui.util.Alerts;
 import model.enums.PathList;
 import java.awt.Color;
 import java.awt.BasicStroke;
@@ -29,6 +28,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import model.enums.TypePane;
+import model.util.Path;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
@@ -44,7 +44,7 @@ import org.jfree.ui.RefineryUtilities;
 
 public class Grafico extends ApplicationFrame {
 
-    public Grafico(String applicationTitle, String chartTitle, String dia_mes_ano, String nomeGrafico,Integer width ,Integer height,Integer hourLimit) {
+    public Grafico(String applicationTitle, String chartTitle, String dia_mes_ano, String nomeGrafico, Integer width, Integer height, Integer hourLimit) {
         super(applicationTitle);
 
         JFreeChart xylineChart = ChartFactory.createTimeSeriesChart(
@@ -67,40 +67,63 @@ public class Grafico extends ApplicationFrame {
         OutputStream png;
 
         try {
-            png = new FileOutputStream(nomeGrafico+".png");
+            png = new FileOutputStream(nomeGrafico + ".png");
             ChartUtilities.writeChartAsPNG(png, xylineChart, width, height);
         } catch (IOException e) {
             System.err.println("Erro ao construir png Grafico: " + e.getMessage());
         }
     }
 
-    private XYDataset createDataset(String dia_mes_ano, Integer hourLimit ) {
+    private XYDataset createDataset(String dia_mes_ano, Integer hourLimit) {
         final TimeSeries z1 = new TimeSeries("Temperatura Secagem", Minute.class);
         final TimeSeries z2 = new TimeSeries("Temperatura Vulcanização", Minute.class);
 
-        String [] data = dia_mes_ano.split("_");
-        
-        String path = Path.loadPath(PathList.LOCALFOLDER)+ "\\" + data[1] + "_" + data[2] + "\\" + dia_mes_ano + ".txt";
+        String[] data = dia_mes_ano.split("_");
+
+        String path = Path.loadPath(PathList.LOCALFOLDER) + "\\" + data[1] + "_" + data[2] + "\\" + dia_mes_ano + ".txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line = br.readLine();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            
-            Calendar cal = Calendar.getInstance();
-            Date d1 =new Date(System.currentTimeMillis());
-            
-            cal.setTime(d1);
-            cal.add(Calendar.HOUR_OF_DAY, -(hourLimit));
-            d1 = cal.getTime();
-            
+
+            Calendar cal1 = Calendar.getInstance();
+            Date d1 = new Date(System.currentTimeMillis());
+            cal1.setTime(d1);
+            cal1.add(Calendar.HOUR_OF_DAY, -(hourLimit));
+            d1 = cal1.getTime();
+
+            Calendar cal2 = Calendar.getInstance();
+            Date d2 = new Date();
+            cal2.set(2999, 01, 01);
+            d2 = cal2.getTime();
+
+            Calendar cal3 = Calendar.getInstance();
+            Date d3 = new Date();
+
             while (line != null) {
                 String[] cut = line.split(", ");
                 try {
-
                     if (sdf.parse(cut[0]).after(d1) || hourLimit == -1000) {
 
-                        z1.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[1]));
-                        z2.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[2]));
+                        if ((d2).after(sdf.parse(cut[0]))) {
+                            z1.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[1]));
+                            z2.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[2]));
+                        } else {
+                            z1.add(new Minute(d3, TimeZone.getDefault()), Double.NaN);
+                            z2.add(new Minute(d3, TimeZone.getDefault()), Double.NaN);
+                            z1.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[1]));
+                            z2.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[2]));
+                        }
+                        d2 = sdf.parse(cut[0]);
+                        cal2.setTime(d2);
+                        cal2.add(Calendar.MINUTE, 5);
+                        d2 = cal2.getTime();
+
+                        d3 = sdf.parse(cut[0]);
+                        cal3.setTime(d3);
+                        cal3.add(Calendar.MINUTE, 3);
+                        d3 = cal3.getTime();
+
                     }
 
                 } catch (ParseException ex) {
@@ -119,13 +142,13 @@ public class Grafico extends ApplicationFrame {
         return dataset;
     }
 
-    public static void carregaGrafico(String dia_mes_ano, JLabel label, String nomeGrafico,Integer width, Integer height ,Integer hourLimit) {
+    public static void carregaGrafico(String dia_mes_ano, JLabel label, String nomeGrafico, Integer width, Integer height, Integer hourLimit) {
         Grafico chart = new Grafico("Temperatura de Secagem dos fornos ICBT's",
                 "Temperatura do Forno", dia_mes_ano, nomeGrafico, width, height, hourLimit);
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(false);
-        final String path = nomeGrafico+".png";
+        final String path = nomeGrafico + ".png";
 
         try {
             java.awt.Image nGrafico = Toolkit.getDefaultToolkit().getImage(path);
@@ -134,9 +157,9 @@ public class Grafico extends ApplicationFrame {
 
         } catch (NullPointerException e) {
             Alerts.showAlert("Erro ao gerar o grafico", "O Sistema não pode achar o arquivo para construção do grafico ",
-            "", TypePane.ERRO);
+                    "", TypePane.ERRO);
             System.out.println("Erro ao gerar o grafico");
         }
     }
-    
+
 }

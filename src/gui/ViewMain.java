@@ -10,7 +10,7 @@ import model.util.Path;
 import model.enums.PathList;
 import model.util.Utils;
 import arduino.util.ArduinoSerial;
-import model.util.Grafico;
+import gui.util.Grafico;
 import java.awt.Color;
 import model.entities.LeituraMaquina;
 
@@ -29,7 +29,7 @@ public class ViewMain extends javax.swing.JFrame {
         String log = "Inicializando o Sistema";
         geraLog(log);
         Grafico.carregaGrafico(Utils.getDataFormated_(), lblGrafico, "Grafico", 1050, 500,1);
-        this.setExtendedState(MAXIMIZED_BOTH);
+        //this.setExtendedState(MAXIMIZED_BOTH);
 
         Thread tr1 = new Thread() {
             @Override

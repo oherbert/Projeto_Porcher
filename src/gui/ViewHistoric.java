@@ -7,7 +7,10 @@ package gui;
 
 import java.io.File;
 import model.util.Loader;
-import model.util.Grafico;
+import gui.util.Grafico;
+import javax.swing.Icon;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,11 +23,11 @@ public class ViewHistoric extends javax.swing.JFrame {
      */
     public ViewHistoric() {
         initComponents();
-         this.setExtendedState(MAXIMIZED_BOTH);
-         for(File folder: Loader.folder()){
+        // this.setExtendedState(MAXIMIZED_BOTH);
+        for (File folder : Loader.folder()) {
             cboMes.addItem(folder.getName());
-         }
-         
+        }
+
     }
 
     /**
@@ -42,7 +45,7 @@ public class ViewHistoric extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         pnlGrafico = new javax.swing.JPanel();
-        sclGrafico = new javax.swing.JScrollPane();
+        spaneInfo = new javax.swing.JScrollPane();
         lblInfo = new javax.swing.JLabel();
         optTabela = new javax.swing.JRadioButton();
         optGrafico = new javax.swing.JRadioButton();
@@ -81,21 +84,21 @@ public class ViewHistoric extends javax.swing.JFrame {
         pnlGrafico.setBackground(new java.awt.Color(255, 255, 255));
         pnlGrafico.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        sclGrafico.setBackground(new java.awt.Color(255, 255, 255));
+        spaneInfo.setBackground(new java.awt.Color(255, 255, 255));
 
         lblInfo.setBackground(new java.awt.Color(255, 255, 255));
         lblInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        sclGrafico.setViewportView(lblInfo);
+        spaneInfo.setViewportView(lblInfo);
 
         javax.swing.GroupLayout pnlGraficoLayout = new javax.swing.GroupLayout(pnlGrafico);
         pnlGrafico.setLayout(pnlGraficoLayout);
         pnlGraficoLayout.setHorizontalGroup(
             pnlGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sclGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
+            .addComponent(spaneInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
         );
         pnlGraficoLayout.setVerticalGroup(
             pnlGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sclGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+            .addComponent(spaneInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
         );
 
         buttonGroup1.add(optTabela);
@@ -158,20 +161,18 @@ public class ViewHistoric extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMesActionPerformed
-       cboDia.removeAllItems();
-       cboDia.addItem("Dia");
-        if(!"Mês e ano".equals(cboMes.getSelectedItem().toString())){
+        cboDia.removeAllItems();
+        cboDia.addItem("Dia");
         
-           for(File file: Loader.file(cboMes.getSelectedItem().toString())){
-            
-            String[] newFile = file.getName().split("_");
-            
-            
-            if(newFile.length >= 3 ){
-            cboDia.addItem(newFile[0]);
-         }
-            
-        }}
+        if (!"Mês e ano".equals(cboMes.getSelectedItem().toString())) {
+            for (File file : Loader.file(cboMes.getSelectedItem().toString())) {
+                String[] newFile = file.getName().split("_");
+                if (newFile.length >= 3) {
+                    cboDia.addItem(newFile[0]);
+                }
+
+            }
+        }
     }//GEN-LAST:event_cboMesActionPerformed
 
     private void cboDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDiaActionPerformed
@@ -179,10 +180,18 @@ public class ViewHistoric extends javax.swing.JFrame {
     }//GEN-LAST:event_cboDiaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if (!cboMes.getSelectedItem().equals("Mês e ano") && !cboDia.getSelectedItem().equals("Dia") ){
-            if (optGrafico.isSelected()){
-            Grafico.carregaGrafico(cboDia.getSelectedItem().toString()+ "_" +cboMes.getSelectedItem().toString(),
-                    lblInfo, "GraficoHistorico", 2500, 600, 1000);}
+        if (!cboMes.getSelectedItem().equals("Mês e ano") && !cboDia.getSelectedItem().equals("Dia")) {
+            
+            if (optGrafico.isSelected()) {
+                spaneInfo.add(lblInfo);
+                Grafico.carregaGrafico(cboDia.getSelectedItem().toString() + "_" + cboMes.getSelectedItem().toString(),
+                        lblInfo, "GraficoHistorico", 2500, 600, 1000);
+            }
+            else if(optTabela.isSelected()){
+            Loader.fileContent(spaneInfo,cboDia.getSelectedItem().toString(),cboMes.getSelectedItem().toString());
+           
+            
+            }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -221,17 +230,8 @@ public class ViewHistoric extends javax.swing.JFrame {
             }
         });
     }
-    
-    
 
-    
-        private void carregaTabela(){
-            
-            
-            
-         //   JTable table = new JTable(rowData, columnNames);
-        }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -242,6 +242,6 @@ public class ViewHistoric extends javax.swing.JFrame {
     private javax.swing.JRadioButton optGrafico;
     private javax.swing.JRadioButton optTabela;
     private javax.swing.JPanel pnlGrafico;
-    private javax.swing.JScrollPane sclGrafico;
+    private javax.swing.JScrollPane spaneInfo;
     // End of variables declaration//GEN-END:variables
 }
