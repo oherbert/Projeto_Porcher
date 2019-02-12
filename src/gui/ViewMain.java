@@ -13,8 +13,6 @@ import arduino.util.ArduinoSerial;
 import gui.util.Alerts;
 import gui.util.Grafico;
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.entities.LeituraMaquina;
 import model.enums.TypePane;
 import model.exceptions.ArduinoException;

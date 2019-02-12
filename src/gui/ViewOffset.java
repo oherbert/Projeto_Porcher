@@ -223,8 +223,6 @@ public class ViewOffset extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-
-        DecimalFormat result = new DecimalFormat("##.#");
         
         if (CheckTextField.emptyField(txtSecagem1) == false) {
             Path.setPath(new Path(PathList.OFFSETSECAGEM_1, 

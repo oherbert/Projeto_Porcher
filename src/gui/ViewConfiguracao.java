@@ -29,12 +29,17 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     public ViewConfiguracao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
+        
+        // Carrega os dados atuais nos campos
         String[] lstCom = new String[]{"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"};
         for (String lst : lstCom) {
             cboCom.addItem(lst);
             txtLocal.setText(FormatLocalPath.TwoBarsToOneBar(Path.loadPath(PathList.LOCALFOLDER)));
             txtRemoto.setText(Path.loadPath(PathList.CLOUDFOLDER));
+            txtSetTemp1.setText(Path.loadPath(PathList.TEMPERATURA_SET_1));
+            txtSetTemp2.setText(Path.loadPath(PathList.TEMPERATURA_SET_2));
+            txtRangeSec1.setText(Path.loadPath(PathList.RANGETEMPERATURA_1));
+            txtRangeVul1.setText(Path.loadPath(PathList.RANGETEMPERATURA_2));
         }
     }
 
@@ -54,9 +59,21 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         txtLocal = new javax.swing.JTextField();
         btnAlterar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        cboTempo = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtSetTemp1 = new javax.swing.JTextField();
+        txtSetTemp2 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtRangeSec1 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtRangeVul1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configurações");
+        setAlwaysOnTop(true);
+        setResizable(false);
 
         cboCom.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cboCom.setName("cboCom"); // NOI18N
@@ -82,33 +99,101 @@ public class ViewConfiguracao extends javax.swing.JDialog {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setText("Tempo entre gravações");
+
+        cboTempo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        cboTempo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 min", "2 min", "3 min", "4 min", "5 min" }));
+        cboTempo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTempoActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setText("Temperatura Secagem Ideal");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setText("Tolerância Temp. Secagem");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel7.setText("Temperatura Vulcanização Ideal");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setText("Tolerância Temp. Vulcanização");
+
+        txtRangeVul1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRangeVul1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(205, 205, 205)
+                .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(75, 75, 75))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(108, 108, 108)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(94, 94, 94))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cboCom, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cboCom, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cboTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(121, 121, 121))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(61, 61, 61)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtRemoto, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
-                            .addComponent(txtLocal)))
+                            .addComponent(txtLocal))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(71, Short.MAX_VALUE))
+                        .addGap(29, 29, 29)
+                        .addComponent(txtRangeSec1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtRangeVul1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(117, 117, 117))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(txtSetTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtSetTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(8, 8, 8)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cboCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboTempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -117,9 +202,25 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(txtRemoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSetTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSetTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtRangeSec1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRangeVul1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -130,30 +231,70 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     }//GEN-LAST:event_cboComActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        
+        //Lista que valida os campo do textfield 
         List<JTextField> lst = new ArrayList<>();
         lst.add(txtLocal);
         lst.add(txtRemoto);
+        lst.add(txtSetTemp1);
+        lst.add(txtSetTemp2);
+        lst.add(txtRangeSec1);
+        lst.add(txtRangeVul1);
+        int setTemp;
+        
         if (CheckTextField.emptyList(lst) == true) {
-
             Alerts.showAlert("Campos não preenchidos", "Preencher todos os campos solicitados", "", TypePane.ERRO);
-        } else {
+        }
+        else {
             String currentPath = Path.loadPath(PathList.LOCALFOLDER);
-
+            
             try {
                 Path.setPath(new Path(PathList.LOCALFOLDER, FormatLocalPath.OneBarToTwoBars(txtLocal.getText())));
+                // Testa para ver se o diretorio selecionado é valido
                 Writer.write(new LeituraMaquina(0.0, 0.0, "Alteração de repositorio"));
-                Path.setPath(new Path(PathList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
-                Path.setPath(new Path(PathList.CLOUDFOLDER, txtRemoto.getText()));
-                Alerts.showAlert("Diretorios Salvos", "Os diretorios foram alterados com sucesso", "", TypePane.INFORMATION);
-                this.dispose();
+                           
             } catch (Exception e) {
                 Alerts.showAlert("Diretorio Inválido", "O caminho informado: " + FormatLocalPath.TwoBarsToOneBar(Path.loadPath(PathList.LOCALFOLDER)) + " não existe.", "", TypePane.ERRO);
                 Path.setPath(new Path(PathList.LOCALFOLDER, currentPath));
             }
+            try{
+            Path.setPath(new Path(PathList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
+                
+                if ("1 min".equals(cboTempo.getSelectedItem().toString())){
+                setTemp = 60;
+                }else if ("2 min".equals(cboTempo.getSelectedItem().toString())){
+                setTemp = 120;
+                }else if ("3 min".equals(cboTempo.getSelectedItem().toString())){
+                setTemp = 180;
+                }else if ("4 min".equals(cboTempo.getSelectedItem().toString())){
+                setTemp = 240;
+                }else setTemp = 300;                
+                
+                Path.setPath(new Path(PathList.TEMPOGRAVACAO, Integer.toString(setTemp)));
+                Path.setPath(new Path(PathList.CLOUDFOLDER, txtRemoto.getText()));
+                Path.setPath(new Path(PathList.TEMPERATURA_SET_1, txtSetTemp1.getText()));
+                Path.setPath(new Path(PathList.TEMPERATURA_SET_2, txtSetTemp2.getText()));
+                Path.setPath(new Path(PathList.RANGETEMPERATURA_1, txtRangeSec1.getText()));
+                Path.setPath(new Path(PathList.RANGETEMPERATURA_2, txtRangeVul1.getText()));
+                
+                Alerts.showAlert("Diretorios Salvos", "Os diretorios foram alterados com sucesso", "", TypePane.INFORMATION);
+                this.dispose();
+            }catch(Exception e){
+                System.out.println("Alguma configuração não existe no arquivo config.txt: "+ e.getMessage());
+            }
+            
 
         }
 
     }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void txtRangeVul1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRangeVul1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRangeVul1ActionPerformed
+
+    private void cboTempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTempoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboTempoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,10 +341,20 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JComboBox<String> cboCom;
+    private javax.swing.JComboBox<String> cboTempo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField txtLocal;
+    private javax.swing.JTextField txtRangeSec1;
+    private javax.swing.JTextField txtRangeVul1;
     private javax.swing.JTextField txtRemoto;
+    private javax.swing.JTextField txtSetTemp1;
+    private javax.swing.JTextField txtSetTemp2;
     // End of variables declaration//GEN-END:variables
 }

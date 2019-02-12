@@ -117,7 +117,7 @@ public class Grafico extends ApplicationFrame {
                         }
                         d2 = sdf.parse(cut[0]);
                         cal2.setTime(d2);
-                        cal2.add(Calendar.MINUTE, 5);
+                        cal2.add(Calendar.MINUTE, 7);
                         d2 = cal2.getTime();
 
                         d3 = sdf.parse(cut[0]);
