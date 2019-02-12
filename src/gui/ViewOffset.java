@@ -8,6 +8,8 @@ package gui;
 import gui.util.Alerts;
 import gui.util.CheckTextField;
 import gui.util.Constraints;
+import java.text.DecimalFormat;
+import java.util.Locale;
 import model.enums.PathList;
 import model.enums.TypePane;
 import model.util.Path;
@@ -25,6 +27,8 @@ public class ViewOffset extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
+        Locale.setDefault(Locale.US);
+
         Constraints.setTextFieldDouble(txtSecagem1);
         Constraints.setTextFieldMaxLength(txtSecagem1, 5);
         Constraints.setTextFieldDouble(txtSecagem2);
@@ -41,7 +45,7 @@ public class ViewOffset extends javax.swing.JDialog {
         Constraints.setTextFieldMaxLength(txtVulcanizacao3, 5);
         Constraints.setTextFieldDouble(txtVulcanizacao4);
         Constraints.setTextFieldMaxLength(txtVulcanizacao4, 5);
-        
+
         txtSecagem1.setText(Path.loadPath(PathList.OFFSETSECAGEM_1));
         txtSecagem2.setText(Path.loadPath(PathList.OFFSETSECAGEM_2));
         txtSecagem3.setText(Path.loadPath(PathList.OFFSETSECAGEM_3));
@@ -220,54 +224,64 @@ public class ViewOffset extends javax.swing.JDialog {
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
 
+        DecimalFormat result = new DecimalFormat("##.#");
+        
         if (CheckTextField.emptyField(txtSecagem1) == false) {
-            Path.setPath(new Path(PathList.OFFSETSECAGEM_1, txtSecagem1.getText()));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_1, 
+            String.format("%.1f", Double.parseDouble(txtSecagem1.getText()))));
         } else {
-            Path.setPath(new Path(PathList.OFFSETSECAGEM_1, "0"));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_1, "00.0"));
         }
 
         if (CheckTextField.emptyField(txtSecagem2) == false) {
-            Path.setPath(new Path(PathList.OFFSETSECAGEM_2, txtSecagem2.getText()));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_2, 
+            String.format("%.1f", Double.parseDouble(txtSecagem2.getText()))));
         } else {
-            Path.setPath(new Path(PathList.OFFSETSECAGEM_2, "0"));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_2, "00.0"));
         }
 
         if (CheckTextField.emptyField(txtSecagem3) == false) {
-            Path.setPath(new Path(PathList.OFFSETSECAGEM_3, txtSecagem3.getText()));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_3, 
+            String.format("%.1f", Double.parseDouble(txtSecagem3.getText()))));
         } else {
-            Path.setPath(new Path(PathList.OFFSETSECAGEM_3, "0"));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_3, "00.0"));
         }
 
         if (CheckTextField.emptyField(txtSecagem4) == false) {
-            Path.setPath(new Path(PathList.OFFSETSECAGEM_4, txtSecagem4.getText()));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_4, 
+            String.format("%.1f", Double.parseDouble(txtSecagem4.getText()))));
         } else {
-            Path.setPath(new Path(PathList.OFFSETSECAGEM_4, "0"));
+            Path.setPath(new Path(PathList.OFFSETSECAGEM_4, "00.0"));
         }
 
         if (CheckTextField.emptyField(txtVulcanizacao1) == false) {
-            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_1, txtVulcanizacao1.getText()));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_1, 
+            String.format("%.1f", Double.parseDouble(txtVulcanizacao1.getText()))));
         } else {
-            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_1, "0"));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_1, "00.0"));
         }
 
         if (CheckTextField.emptyField(txtVulcanizacao2) == false) {
-            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_2, txtVulcanizacao2.getText()));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_2, 
+            String.format("%.1f", Double.parseDouble(txtVulcanizacao2.getText()))));
         } else {
-            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_2, "0"));
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_2, "00.0"));
         }
-        
-        if (CheckTextField.emptyField(txtVulcanizacao3) == false){
-            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_3, txtVulcanizacao3.getText()));
-        }else{
-            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_3, "0"));
+
+        if (CheckTextField.emptyField(txtVulcanizacao3) == false) {
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_3, 
+            String.format("%.1f", Double.parseDouble(txtVulcanizacao3.getText()))));
+        } else {
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_3, "00.0"));
         }
-        
-        if (CheckTextField.emptyField(txtVulcanizacao4) == false){
-            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_4, txtVulcanizacao4.getText()));
-        }else{
-            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_4, "0"));
+
+        if (CheckTextField.emptyField(txtVulcanizacao4) == false) {
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_4, 
+            String.format("%.1f", Double.parseDouble(txtVulcanizacao4.getText()))));
+        } else {
+            Path.setPath(new Path(PathList.OFFSETVULCANICACAO_4, "00.0"));
         }
-        
+
         Alerts.showAlert("Valores Salvos", "Os valores foram salvos com sucesso", "", TypePane.INFORMATION);
         this.dispose();
     }//GEN-LAST:event_btnAlterarActionPerformed

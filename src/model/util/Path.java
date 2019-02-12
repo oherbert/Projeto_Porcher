@@ -75,7 +75,6 @@ public class Path {
                 } else {
                     line = br.readLine();
                 }
-
             }
 
         } catch (IOException e) {

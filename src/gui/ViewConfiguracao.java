@@ -138,7 +138,7 @@ public class ViewConfiguracao extends javax.swing.JDialog {
             Alerts.showAlert("Campos não preenchidos", "Preencher todos os campos solicitados", "", TypePane.ERRO);
         } else {
             String currentPath = Path.loadPath(PathList.LOCALFOLDER);
-            
+
             try {
                 Path.setPath(new Path(PathList.LOCALFOLDER, FormatLocalPath.OneBarToTwoBars(txtLocal.getText())));
                 Writer.write(new LeituraMaquina(0.0, 0.0, "Alteração de repositorio"));
@@ -150,8 +150,6 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                 Alerts.showAlert("Diretorio Inválido", "O caminho informado: " + FormatLocalPath.TwoBarsToOneBar(Path.loadPath(PathList.LOCALFOLDER)) + " não existe.", "", TypePane.ERRO);
                 Path.setPath(new Path(PathList.LOCALFOLDER, currentPath));
             }
-            
-            
 
         }
 

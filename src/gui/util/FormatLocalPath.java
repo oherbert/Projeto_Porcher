@@ -13,13 +13,11 @@ public class FormatLocalPath {
 
     public static String OneBarToTwoBars(String path) {
         String newPath = path.replace("\\", "\\\\");
-        System.out.println(newPath);
         return newPath;
     }
 
     public static String TwoBarsToOneBar(String path) {
         String newPath = path.replace("\\\\", "\\");
-        System.out.println(newPath);
         return newPath;
     }
 

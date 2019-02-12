@@ -8,9 +8,6 @@ package gui;
 import java.io.File;
 import model.util.Loader;
 import gui.util.Grafico;
-import javax.swing.Icon;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -163,7 +160,7 @@ public class ViewHistoric extends javax.swing.JFrame {
     private void cboMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMesActionPerformed
         cboDia.removeAllItems();
         cboDia.addItem("Dia");
-        
+
         if (!"Mês e ano".equals(cboMes.getSelectedItem().toString())) {
             for (File file : Loader.file(cboMes.getSelectedItem().toString())) {
                 String[] newFile = file.getName().split("_");
@@ -181,16 +178,14 @@ public class ViewHistoric extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (!cboMes.getSelectedItem().equals("Mês e ano") && !cboDia.getSelectedItem().equals("Dia")) {
-            
+
             if (optGrafico.isSelected()) {
                 spaneInfo.add(lblInfo);
                 Grafico.carregaGrafico(cboDia.getSelectedItem().toString() + "_" + cboMes.getSelectedItem().toString(),
                         spaneInfo, "GraficoHistorico", 2500, 600, 1000);
-            }
-            else if(optTabela.isSelected()){
-            Loader.fileContent(spaneInfo,cboDia.getSelectedItem().toString(),cboMes.getSelectedItem().toString());
-           
-            
+            } else if (optTabela.isSelected()) {
+                Loader.fileContent(spaneInfo, cboDia.getSelectedItem().toString(), cboMes.getSelectedItem().toString());
+
             }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed

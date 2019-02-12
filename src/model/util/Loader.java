@@ -9,8 +9,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.swing.Icon;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +21,6 @@ import model.enums.PathList;
 public class Loader {
 
     public static File[] folder() {
-        //List<String> folders = new ArrayList<>();
 
         File path = new File(Path.loadPath(PathList.LOCALFOLDER));
         File[] folders = path.listFiles(File::isDirectory);
@@ -32,7 +29,6 @@ public class Loader {
     }
 
     public static File[] file(String selectedFolder) {
-        //List<String> folders = new ArrayList<>();
 
         File path = new File(Path.loadPath(PathList.LOCALFOLDER) + "\\" + selectedFolder);
         File[] folders = path.listFiles(File::isFile);

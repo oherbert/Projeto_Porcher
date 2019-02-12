@@ -9,6 +9,10 @@ package model.exceptions;
  *
  * @author Herbert
  */
-public class ValidationException {
-    
+public class ArduinoException extends RuntimeException {
+
+    public ArduinoException(String exception) {
+        super(exception);
+    }
+
 }

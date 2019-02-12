@@ -31,7 +31,7 @@ public class Constraints {
 
     public static void setTextFieldDouble(JTextField txt) {
         txt.addKeyListener(new KeyAdapter() {
-            
+
             public void keyTyped(KeyEvent e) {
                 char letter = e.getKeyChar();
                 String regex = txt.getText() + letter;
@@ -46,7 +46,7 @@ public class Constraints {
         txt.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char letter = e.getKeyChar();
-                 if (!Character.isLetter(letter)) {
+                if (!Character.isLetter(letter)) {
                     e.consume();
                 }
             }

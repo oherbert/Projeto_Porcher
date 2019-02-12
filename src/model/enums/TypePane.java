@@ -10,16 +10,17 @@ package model.enums;
  * @author Herbert
  */
 public enum TypePane {
-    
+
     ERRO(0), INFORMATION(1), WARNING(2), UNKNOW(3);
-    
+
     private final int valor;
-    
-    TypePane(int valorOpcao){
+
+    TypePane(int valorOpcao) {
         valor = valorOpcao;
     }
-    public int getValor(){
+
+    public int getValor() {
         return valor;
     }
-    
+
 }

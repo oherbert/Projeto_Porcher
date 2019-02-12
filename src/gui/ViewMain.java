@@ -10,9 +10,14 @@ import model.util.Path;
 import model.enums.PathList;
 import model.util.Utils;
 import arduino.util.ArduinoSerial;
+import gui.util.Alerts;
 import gui.util.Grafico;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.entities.LeituraMaquina;
+import model.enums.TypePane;
+import model.exceptions.ArduinoException;
 
 /**
  *
@@ -28,33 +33,56 @@ public class ViewMain extends javax.swing.JFrame {
         ArduinoSerial arduino = new ArduinoSerial(Path.loadPath(PathList.ARDUINOCOM));
         String log = "Inicializando o Sistema";
         geraLog(log);
-        Grafico.carregaGrafico(Utils.getDataFormated_(), sclGrafico, "Grafico", 1050, 500,1);
-        //this.setExtendedState(MAXIMIZED_BOTH);
+        Grafico.carregaGrafico(Utils.getDataFormated_(), sclGrafico, "Grafico", 1050, 500, 1);
+        this.setExtendedState(MAXIMIZED_BOTH);
 
         Thread tr1 = new Thread() {
+            
             @Override
             public void run() {
                 String lastLog = "";
 
                 try {
                     arduino.initialize();
-                    arduino.sleep(10000);
-                    System.out.println("Saida arduino: " + arduino.read());
-
+                    arduino.sleep(3000);
+                    
+                    String sendedData = null;    
+                    int contNew = 0;
+                    
                     while (true) {
-                        arduino.sleep(3000);
-                        //System.out.print("Saida arduino: "+arduino.read());
-                        if (arduino.read() != null) {
+                        try{
+                            //Logica para envio de dados
+                            String sendData = "{60, "+"147, "+"157, "+"10, "+"10, "+ Path.loadPath(PathList.OFFSETSECAGEM_1) +", " + Path.loadPath(PathList.OFFSETVULCANICACAO_1) +"}";
+                            
+                            if (!(sendData).equals(sendedData)){
+                            arduino.send(sendData);
+                            sendedData = sendData;
+                            if (contNew != 0){
+                            Alerts.showAlert("Atualização", "Uma nova configuração foi detectada", "", TypePane.INFORMATION);
+                            }
+                            contNew++;
+                            arduino.sleep(1000);
+                            }}
+                        catch(ArduinoException e){
+                            System.out.println("Erro ao escrever as configurações no arduino" + e.getMessage());
+                        }
+                                                
+                        arduino.send(" ");
+                        arduino.sleep(1000);
+                        
+                        if (arduino.read() != null) {                            
+                            
+                            try {
+                                //Recebe String da leitura do arduino
                             String[] dados = arduino.read().split(",");
                             String z1 = dados[0];
                             String z2 = dados[1];
                             String estado = dados[2];
                             String cmdSalvar = dados[3];
-
-                            try {
-                                Double tempSec1 = Double.parseDouble(z1) + Double.parseDouble(Path.loadPath(PathList.OFFSETSECAGEM_1));
-                                Double tempVul1 = Double.parseDouble(z2) + Double.parseDouble(Path.loadPath(PathList.OFFSETVULCANICACAO_1));
                                 
+                                Double tempSec1 = Double.parseDouble(z1);
+                                Double tempVul1 = Double.parseDouble(z2);
+
                                 lblZ1.setText(tempSec1.toString());
                                 lblZ2.setText(tempVul1.toString());
                                 lblEstado.setText(estado);
@@ -64,7 +92,7 @@ public class ViewMain extends javax.swing.JFrame {
                                     lastLog = "Comunicação estabelecida";
                                 }
 
-                                LeituraMaquina leitura = new LeituraMaquina(tempSec1,tempVul1 , estado);
+                                LeituraMaquina leitura = new LeituraMaquina(tempSec1, tempVul1, estado);
 
                                 if ("salvar".equals(cmdSalvar)) {
                                     System.out.println("Registro " + Utils.getDataSistema());
@@ -92,6 +120,7 @@ public class ViewMain extends javax.swing.JFrame {
         };
 
         tr1.start();
+        
     }
 
     /**
@@ -177,39 +206,42 @@ public class ViewMain extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(116, 116, 116))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblZ2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblZ1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(lblZ2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblZ1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(9, 9, 9)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblZ1)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblZ1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblZ2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblZ2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel5)
+                    .addComponent(lblEstado))
+                .addGap(35, 35, 35))
         );
 
         sPnl1.setBackground(java.awt.Color.white);
@@ -240,7 +272,7 @@ public class ViewMain extends javax.swing.JFrame {
         );
         pnlGraficoLayout.setVerticalGroup(
             pnlGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sclGrafico)
+            .addComponent(sclGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Menu");
@@ -305,12 +337,14 @@ public class ViewMain extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pnlGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(106, 106, 106)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 54, Short.MAX_VALUE))
-                    .addComponent(pnlGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(sPnl1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -326,12 +360,12 @@ public class ViewMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void itemHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemHistoricoActionPerformed
-         ViewHistoric viewHistoric = new ViewHistoric();
-         viewHistoric.setVisible(true);
+        ViewHistoric viewHistoric = new ViewHistoric();
+        viewHistoric.setVisible(true);
     }//GEN-LAST:event_itemHistoricoActionPerformed
 
     private void itemHistoricoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemHistoricoMouseClicked
-        
+
     }//GEN-LAST:event_itemHistoricoMouseClicked
 
     private void ItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemConfigActionPerformed
@@ -392,7 +426,6 @@ public class ViewMain extends javax.swing.JFrame {
         geraLog(msg);
         txtLog.setDisabledTextColor(Color.red);
     }
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

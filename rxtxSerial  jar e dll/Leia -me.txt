@@ -1,0 +1,1 @@
+colocar a dll na pas system 32 ou sysWow64
