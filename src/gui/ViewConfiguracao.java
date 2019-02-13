@@ -13,9 +13,9 @@ import model.util.Path;
 import model.enums.PathList;
 import model.enums.TypePane;
 import gui.util.CheckTextField;
+import gui.util.Constraints;
 import gui.util.FormatLocalPath;
-import model.entities.LeituraMaquina;
-import model.util.Writer;
+import java.io.File;
 
 /**
  *
@@ -29,7 +29,7 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     public ViewConfiguracao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         // Carrega os dados atuais nos campos
         String[] lstCom = new String[]{"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"};
         for (String lst : lstCom) {
@@ -40,6 +40,10 @@ public class ViewConfiguracao extends javax.swing.JDialog {
             txtSetTemp2.setText(Path.loadPath(PathList.TEMPERATURA_SET_2));
             txtRangeSec1.setText(Path.loadPath(PathList.RANGETEMPERATURA_1));
             txtRangeVul1.setText(Path.loadPath(PathList.RANGETEMPERATURA_2));
+            Constraints.setTextFieldInteger(txtSetTemp1);
+            Constraints.setTextFieldInteger(txtSetTemp2);
+            Constraints.setTextFieldInteger(txtRangeSec1);
+            Constraints.setTextFieldInteger(txtRangeVul1);
         }
     }
 
@@ -231,7 +235,7 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     }//GEN-LAST:event_cboComActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        
+
         //Lista que valida os campo do textfield 
         List<JTextField> lst = new ArrayList<>();
         lst.add(txtLocal);
@@ -241,48 +245,48 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         lst.add(txtRangeSec1);
         lst.add(txtRangeVul1);
         int setTemp;
-        
+
         if (CheckTextField.emptyList(lst) == true) {
             Alerts.showAlert("Campos não preenchidos", "Preencher todos os campos solicitados", "", TypePane.ERRO);
-        }
-        else {
-            String currentPath = Path.loadPath(PathList.LOCALFOLDER);
+        } else {
+            //Testa para ver se o diretorio selecionado é valido
+            boolean sucess = new File(txtLocal.getText() + "\\check").mkdir();
             
-            try {
-                Path.setPath(new Path(PathList.LOCALFOLDER, FormatLocalPath.OneBarToTwoBars(txtLocal.getText())));
-                // Testa para ver se o diretorio selecionado é valido
-                Writer.write(new LeituraMaquina(0.0, 0.0, "Alteração de repositorio"));
-                           
-            } catch (Exception e) {
-                Alerts.showAlert("Diretorio Inválido", "O caminho informado: " + FormatLocalPath.TwoBarsToOneBar(Path.loadPath(PathList.LOCALFOLDER)) + " não existe.", "", TypePane.ERRO);
-                Path.setPath(new Path(PathList.LOCALFOLDER, currentPath));
+            if (sucess == true) {
+                Path.setPath(new Path(PathList.LOCALFOLDER, txtLocal.getText()));
+                // Exclui o diretorio que testou
+                File check = new File(txtLocal.getText() + "\\check");
+                check.delete();
+                try {
+                    Path.setPath(new Path(PathList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
+
+                    if ("1 min".equals(cboTempo.getSelectedItem().toString())) {
+                        setTemp = 60;
+                    } else if ("2 min".equals(cboTempo.getSelectedItem().toString())) {
+                        setTemp = 120;
+                    } else if ("3 min".equals(cboTempo.getSelectedItem().toString())) {
+                        setTemp = 180;
+                    } else if ("4 min".equals(cboTempo.getSelectedItem().toString())) {
+                        setTemp = 240;
+                    } else {
+                        setTemp = 300;
+                    }
+
+                    Path.setPath(new Path(PathList.TEMPOGRAVACAO, Integer.toString(setTemp)));
+                    Path.setPath(new Path(PathList.CLOUDFOLDER, txtRemoto.getText()));
+                    Path.setPath(new Path(PathList.TEMPERATURA_SET_1, txtSetTemp1.getText()));
+                    Path.setPath(new Path(PathList.TEMPERATURA_SET_2, txtSetTemp2.getText()));
+                    Path.setPath(new Path(PathList.RANGETEMPERATURA_1, txtRangeSec1.getText()));
+                    Path.setPath(new Path(PathList.RANGETEMPERATURA_2, txtRangeVul1.getText()));
+
+                    Alerts.showAlert("Diretorios Salvos", "Os configurações foram alteradas com sucesso", "", TypePane.INFORMATION);
+                    this.dispose();
+                } catch (Exception e) {
+                    System.out.println("Alguma configuração não existe no arquivo config.txt: " + e.getMessage());
+                }
+            } else {
+                Alerts.showAlert("Diretorio Inválido", "O caminho informado: " + txtLocal.getText() + " não existe.", "", TypePane.ERRO);
             }
-            try{
-            Path.setPath(new Path(PathList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
-                
-                if ("1 min".equals(cboTempo.getSelectedItem().toString())){
-                setTemp = 60;
-                }else if ("2 min".equals(cboTempo.getSelectedItem().toString())){
-                setTemp = 120;
-                }else if ("3 min".equals(cboTempo.getSelectedItem().toString())){
-                setTemp = 180;
-                }else if ("4 min".equals(cboTempo.getSelectedItem().toString())){
-                setTemp = 240;
-                }else setTemp = 300;                
-                
-                Path.setPath(new Path(PathList.TEMPOGRAVACAO, Integer.toString(setTemp)));
-                Path.setPath(new Path(PathList.CLOUDFOLDER, txtRemoto.getText()));
-                Path.setPath(new Path(PathList.TEMPERATURA_SET_1, txtSetTemp1.getText()));
-                Path.setPath(new Path(PathList.TEMPERATURA_SET_2, txtSetTemp2.getText()));
-                Path.setPath(new Path(PathList.RANGETEMPERATURA_1, txtRangeSec1.getText()));
-                Path.setPath(new Path(PathList.RANGETEMPERATURA_2, txtRangeVul1.getText()));
-                
-                Alerts.showAlert("Diretorios Salvos", "Os diretorios foram alterados com sucesso", "", TypePane.INFORMATION);
-                this.dispose();
-            }catch(Exception e){
-                System.out.println("Alguma configuração não existe no arquivo config.txt: "+ e.getMessage());
-            }
-            
 
         }
 
