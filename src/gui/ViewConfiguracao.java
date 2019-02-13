@@ -34,17 +34,40 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         String[] lstCom = new String[]{"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"};
         for (String lst : lstCom) {
             cboCom.addItem(lst);
-            txtLocal.setText(FormatLocalPath.TwoBarsToOneBar(Path.loadPath(PathList.LOCALFOLDER)));
-            txtRemoto.setText(Path.loadPath(PathList.CLOUDFOLDER));
-            txtSetTemp1.setText(Path.loadPath(PathList.TEMPERATURA_SET_1));
-            txtSetTemp2.setText(Path.loadPath(PathList.TEMPERATURA_SET_2));
-            txtRangeSec1.setText(Path.loadPath(PathList.RANGETEMPERATURA_1));
-            txtRangeVul1.setText(Path.loadPath(PathList.RANGETEMPERATURA_2));
-            Constraints.setTextFieldInteger(txtSetTemp1);
-            Constraints.setTextFieldInteger(txtSetTemp2);
-            Constraints.setTextFieldInteger(txtRangeSec1);
-            Constraints.setTextFieldInteger(txtRangeVul1);
         }
+
+        cboCom.setSelectedItem(Path.loadPath(PathList.ARDUINOCOM));
+
+        String tempo = "";
+        switch (Path.loadPath(PathList.TEMPOGRAVACAO)) {
+            case ("60"):
+                tempo = "1 min";
+                break;
+            case ("120"):
+                tempo = "2 min";
+                break;
+            case ("180"):
+                tempo = "3 min";
+                break;
+            case ("240"):
+                tempo = "4 min";
+                break;
+            case ("300"):
+                tempo = "5 min";
+                break;
+        }
+
+        cboTempo.setSelectedItem(tempo);
+        txtLocal.setText(FormatLocalPath.TwoBarsToOneBar(Path.loadPath(PathList.LOCALFOLDER)));
+        txtRemoto.setText(Path.loadPath(PathList.CLOUDFOLDER));
+        txtSetTemp1.setText(Path.loadPath(PathList.TEMPERATURA_SET_1));
+        txtSetTemp2.setText(Path.loadPath(PathList.TEMPERATURA_SET_2));
+        txtRangeSec1.setText(Path.loadPath(PathList.RANGETEMPERATURA_1));
+        txtRangeVul1.setText(Path.loadPath(PathList.RANGETEMPERATURA_2));
+        Constraints.setTextFieldInteger(txtSetTemp1);
+        Constraints.setTextFieldInteger(txtSetTemp2);
+        Constraints.setTextFieldInteger(txtRangeSec1);
+        Constraints.setTextFieldInteger(txtRangeVul1);
     }
 
     /**
@@ -195,9 +218,9 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboTempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cboTempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -244,14 +267,14 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         lst.add(txtSetTemp2);
         lst.add(txtRangeSec1);
         lst.add(txtRangeVul1);
-        int setTemp;
+        int setTemp = 240;
 
         if (CheckTextField.emptyList(lst) == true) {
             Alerts.showAlert("Campos não preenchidos", "Preencher todos os campos solicitados", "", TypePane.ERRO);
         } else {
             //Testa para ver se o diretorio selecionado é valido
             boolean sucess = new File(txtLocal.getText() + "\\check").mkdir();
-            
+
             if (sucess == true) {
                 Path.setPath(new Path(PathList.LOCALFOLDER, txtLocal.getText()));
                 // Exclui o diretorio que testou
@@ -260,16 +283,22 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                 try {
                     Path.setPath(new Path(PathList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
 
-                    if ("1 min".equals(cboTempo.getSelectedItem().toString())) {
-                        setTemp = 60;
-                    } else if ("2 min".equals(cboTempo.getSelectedItem().toString())) {
-                        setTemp = 120;
-                    } else if ("3 min".equals(cboTempo.getSelectedItem().toString())) {
-                        setTemp = 180;
-                    } else if ("4 min".equals(cboTempo.getSelectedItem().toString())) {
-                        setTemp = 240;
-                    } else {
-                        setTemp = 300;
+                    switch (cboTempo.getSelectedItem().toString()) {
+                        case ("1 min"):
+                            setTemp = 60;
+                            break;
+                        case ("2 min"):
+                            setTemp = 120;
+                            break;
+                        case ("3 min"):
+                            setTemp = 180;
+                            break;
+                        case ("4 min"):
+                            setTemp = 240;
+                            break;
+                        case ("5 min"):
+                            setTemp = 300;
+                            break;
                     }
 
                     Path.setPath(new Path(PathList.TEMPOGRAVACAO, Integer.toString(setTemp)));

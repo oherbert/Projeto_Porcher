@@ -35,7 +35,7 @@ public class ViewMain extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
 
         Thread tr1 = new Thread() {
-            
+
             @Override
             public void run() {
                 String lastLog = "";
@@ -43,41 +43,43 @@ public class ViewMain extends javax.swing.JFrame {
                 try {
                     arduino.initialize();
                     arduino.sleep(3000);
-                    
-                    String sendedData = null;    
+
+                    String sendedData = null;
                     int contNew = 0;
-                    
+
                     while (true) {
-                        try{
+                        try {
                             //Logica para envio de dados
-                            String sendData = "{60, "+"147, "+"157, "+"10, "+"10, "+ Path.loadPath(PathList.OFFSETSECAGEM_1) +", " + Path.loadPath(PathList.OFFSETVULCANICACAO_1) +"}";
-                            
-                            if (!(sendData).equals(sendedData)){
-                            arduino.send(sendData);
-                            sendedData = sendData;
-                            if (contNew != 0){
-                            Alerts.showAlert("Atualização", "Uma nova configuração foi detectada", "", TypePane.INFORMATION);
+                            String sendData = "{" + Path.loadPath(PathList.TEMPOGRAVACAO) + ", " + Path.loadPath(PathList.TEMPERATURA_SET_1) + ", " + Path.loadPath(PathList.TEMPERATURA_SET_2)
+                                    + ", " + Path.loadPath(PathList.RANGETEMPERATURA_1) + ", " + Path.loadPath(PathList.RANGETEMPERATURA_2) + ", " + Path.loadPath(PathList.OFFSETSECAGEM_1) 
+                                    + ", " + Path.loadPath(PathList.OFFSETVULCANICACAO_1) + "}";
+
+                            if (!(sendData).equals(sendedData)) {
+                                arduino.send(sendData);
+                                sendedData = sendData;
+                                if (contNew != 0) {
+                                    Alerts.showAlert("Atualização", "Uma nova configuração foi detectada", "", TypePane.INFORMATION);
+                                }
+                                contNew++;
+                                arduino.sleep(1000);
                             }
-                            contNew++;
-                            arduino.sleep(1000);
-                            }}
-                        catch(ArduinoException e){
+                        } catch (ArduinoException e) {
                             System.out.println("Erro ao escrever as configurações no arduino" + e.getMessage());
                         }
-                                                
+
                         arduino.send(" ");
                         arduino.sleep(1000);
-                        
-                        if (arduino.read() != null) {                            
-                            
+
+                        if (arduino.read() != null) {
+
                             try {
                                 //Recebe String da leitura do arduino
-                            String[] dados = arduino.read().split(",");
-                            String z1 = dados[0];
-                            String z2 = dados[1];
-                            String estado = dados[2];
-                            String cmdSalvar = dados[3];
-                                
+                                String[] dados = arduino.read().split(",");
+                                String z1 = dados[0];
+                                String z2 = dados[1];
+                                String estado = dados[2];
+                                String cmdSalvar = dados[3];
+
                                 Double tempSec1 = Double.parseDouble(z1);
                                 Double tempVul1 = Double.parseDouble(z2);
 
@@ -118,7 +120,7 @@ public class ViewMain extends javax.swing.JFrame {
         };
 
         tr1.start();
-        
+
     }
 
     /**
