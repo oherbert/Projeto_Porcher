@@ -31,7 +31,7 @@ public class ViewMain extends javax.swing.JFrame {
         ArduinoSerial arduino = new ArduinoSerial(Path.loadPath(PathList.ARDUINOCOM));
         String log = "Inicializando o Sistema";
         geraLog(log);
-        Grafico.carregaGrafico(Utils.getDataFormated_(), sclGrafico, "Grafico", 1050, 500, 1);
+        Grafico.carregaGrafico(Utils.getDataFormated_(), sclGrafico, "Grafico", 980, 500, 1);
         this.setExtendedState(MAXIMIZED_BOTH);
 
         Thread tr1 = new Thread() {
@@ -51,7 +51,7 @@ public class ViewMain extends javax.swing.JFrame {
                         try {
                             //Logica para envio de dados
                             String sendData = "{" + Path.loadPath(PathList.TEMPOGRAVACAO) + ", " + Path.loadPath(PathList.TEMPERATURA_SET_1) + ", " + Path.loadPath(PathList.TEMPERATURA_SET_2)
-                                    + ", " + Path.loadPath(PathList.RANGETEMPERATURA_1) + ", " + Path.loadPath(PathList.RANGETEMPERATURA_2) + ", " + Path.loadPath(PathList.OFFSETSECAGEM_1) 
+                                    + ", " + Path.loadPath(PathList.RANGETEMPERATURA_1) + ", " + Path.loadPath(PathList.RANGETEMPERATURA_2) + ", " + Path.loadPath(PathList.OFFSETSECAGEM_1)
                                     + ", " + Path.loadPath(PathList.OFFSETVULCANICACAO_1) + "}";
 
                             if (!(sendData).equals(sendedData)) {
@@ -71,45 +71,52 @@ public class ViewMain extends javax.swing.JFrame {
                         arduino.sleep(1000);
 
                         if (arduino.read() != null) {
+                            // System.out.println(arduino.read());
 
                             try {
                                 //Recebe String da leitura do arduino
-                                String[] dados = arduino.read().split(",");
-                                String z1 = dados[0];
-                                String z2 = dados[1];
-                                String estado = dados[2];
-                                String cmdSalvar = dados[3];
+                                String dadosArduino = arduino.read();
 
-                                Double tempSec1 = Double.parseDouble(z1);
-                                Double tempVul1 = Double.parseDouble(z2);
+                                //Verifica se os dados estão no formato correto///////////
+                                if (dadosArduino.indexOf("{") == 0 && dadosArduino.indexOf("}") == dadosArduino.length() - 1) {
+                                    String parameter = dadosArduino.substring(1, dadosArduino.length() - 1);
+                                    String[] dados = parameter.split(", ");
+                                    String z1 = dados[0];
+                                    String z2 = dados[1];
+                                    String estado = dados[2];
+                                    String cmdSalvar = dados[3];
 
-                                lblZ1.setText(tempSec1.toString());
-                                lblZ2.setText(tempVul1.toString());
-                                lblEstado.setText(estado);
+                                    Double tempSec1 = Double.parseDouble(z1);
+                                    Double tempVul1 = Double.parseDouble(z2);
 
-                                if (!"Comunicação estabelecida".equals(lastLog)) {
-                                    geraLog("Comunicação estabelecida");
-                                    lastLog = "Comunicação estabelecida";
+                                    lblZ1.setText(tempSec1.toString());
+                                    lblZ2.setText(tempVul1.toString());
+                                    lblEstado.setText(estado);
+
+                                    if (!"Comunicação estabelecida".equals(lastLog)) {
+                                        geraLog("Comunicação estabelecida");
+                                        lastLog = "Comunicação estabelecida";
+                                    }
+
+                                    LeituraMaquina leitura = new LeituraMaquina(tempSec1, tempVul1, estado);
+
+                                    if ("salvar".equals(cmdSalvar)) {
+                                        System.out.println("Registro " + Utils.getDataSistema());
+                                        Writer.write(leitura);
+                                        Grafico.carregaGrafico(Utils.getDataFormated_(), sclGrafico, "Grafico", 980, 500, 1);
+                                    }
                                 }
-
-                                LeituraMaquina leitura = new LeituraMaquina(tempSec1, tempVul1, estado);
-
-                                if ("salvar".equals(cmdSalvar)) {
-                                    System.out.println("Registro " + Utils.getDataSistema());
-                                    Writer.write(leitura);
-                                    Grafico.carregaGrafico(Utils.getDataFormated_(), sclGrafico, "Grafico", 1050, 500, 1);
-                                }
-                            } catch (NumberFormatException e) {
-                                System.out.println("Erro ao carregar valores");
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                System.out.println("Erro ao carregar valores:" + e.getMessage());
                                 if (!"Erro ao carregar os valores".equals(lastLog)) {
                                     erroLog("Erro ao carregar os valores");
                                     lastLog = "Erro ao carregar os valores";
                                 }
-
                             }
-                        } else if (!"Leitura do arduino Nula".equals(lastLog)) {
-                            erroLog("Leitura do arduino Nula");
-                            lastLog = "Leitura do arduino Nula";
+
+                        } else if (!"Tentando carregar valores do arduino...".equals(lastLog)) {
+                            erroLog("Tentando carregar valores do arduino...");
+                            lastLog = "Tentando carregar valores do arduino...";
                         }
                     }
                 } catch (UnsatisfiedLinkError e) {
