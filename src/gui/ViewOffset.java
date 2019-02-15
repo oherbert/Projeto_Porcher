@@ -8,7 +8,6 @@ package gui;
 import gui.util.Alerts;
 import gui.util.CheckTextField;
 import gui.util.Constraints;
-import java.text.DecimalFormat;
 import java.util.Locale;
 import model.enums.PathList;
 import model.enums.TypePane;

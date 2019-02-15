@@ -86,7 +86,7 @@ public class Path {
     public static void setPath(Path config) {
         String path = "Config.txt";
         Map<String, String> mapPath = new TreeMap<>();
-
+///Carrega Todos as configurações do arquivo config
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line = br.readLine();
 

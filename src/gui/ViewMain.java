@@ -12,10 +12,15 @@ import model.util.Utils;
 import arduino.util.ArduinoSerial;
 import gui.util.Alerts;
 import gui.util.Grafico;
+import gui.util.CountHour;
 import java.awt.Color;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import model.entities.LeituraMaquina;
 import model.enums.TypePane;
 import model.exceptions.ArduinoException;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -28,6 +33,7 @@ public class ViewMain extends javax.swing.JFrame {
      */
     public ViewMain() {
         initComponents();
+        Locale.setDefault(Locale.US);
         ArduinoSerial arduino = new ArduinoSerial(Path.loadPath(PathList.ARDUINOCOM));
         String log = "Inicializando o Sistema";
         geraLog(log);
@@ -47,7 +53,15 @@ public class ViewMain extends javax.swing.JFrame {
                     String sendedData = null;
                     int contNew = 0;
 
+                    // Variaveis para o horimetro
+                    boolean addHour = false;
+                    Calendar cal1 = Calendar.getInstance();
+                    Date d1 = new Date(System.currentTimeMillis());
+                    lblHorimetro.setText(CountHour.formatHour(Path.loadPath(PathList.HORIMETRO)));
+                  
+
                     while (true) {
+
                         try {
                             //Logica para envio de dados
                             String sendData = "{" + Path.loadPath(PathList.TEMPOGRAVACAO) + ", " + Path.loadPath(PathList.TEMPERATURA_SET_1) + ", " + Path.loadPath(PathList.TEMPERATURA_SET_2)
@@ -70,6 +84,7 @@ public class ViewMain extends javax.swing.JFrame {
                         arduino.send(" ");
                         arduino.sleep(1000);
 
+                        //Recebimento de dados do arduino
                         if (arduino.read() != null) {
                             // System.out.println(arduino.read());
 
@@ -92,6 +107,33 @@ public class ViewMain extends javax.swing.JFrame {
                                     lblZ1.setText(tempSec1.toString());
                                     lblZ2.setText(tempVul1.toString());
                                     lblEstado.setText(estado);
+                                    
+                                    Date d2 = new Date(System.currentTimeMillis());
+                                    
+                                    if (("Ligada".equals(estado) || "Ligando...".equals(estado) 
+                                        || "Alarme Temperatura".equals(estado) )&& addHour == false) {
+                                        addHour = true;
+                                        cal1.setTime(d2);
+                                        cal1.add(Calendar.SECOND, 10);
+                                        d1 = cal1.getTime();
+                                    }
+
+                                   
+
+                                    if (addHour == true && (d2).after(d1)) {
+                                        CountHour.homerimetro(d1, -10);
+                                        cal1.setTime(d2);
+                                        cal1.add(Calendar.SECOND, 10);
+                                        d1 = cal1.getTime();
+                                        lblHorimetro.setText(CountHour.formatHour(Path.loadPath(PathList.HORIMETRO)));
+                                        
+                                    }
+
+                                    if (("Desligada".equals(estado) || "Desligando...".equals(estado)) && addHour == true ) {
+                                        CountHour.homerimetro(d1, 0);
+                                        lblHorimetro.setText(CountHour.formatHour(Path.loadPath(PathList.HORIMETRO)));
+                                        addHour = false;
+                                    }
 
                                     if (!"Comunicação estabelecida".equals(lastLog)) {
                                         geraLog("Comunicação estabelecida");
@@ -148,6 +190,8 @@ public class ViewMain extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        lblHorimetro = new javax.swing.JLabel();
+        lbl3 = new javax.swing.JLabel();
         sPnl1 = new javax.swing.JScrollPane();
         txtLog = new javax.swing.JTextArea();
         pnlGrafico = new javax.swing.JPanel();
@@ -207,6 +251,12 @@ public class ViewMain extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 11)); // NOI18N
         jLabel1.setText("Maquina 1");
 
+        lblHorimetro.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblHorimetro.setText("null");
+
+        lbl3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lbl3.setText("Horimetro:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -216,19 +266,23 @@ public class ViewMain extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblZ2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblZ1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblZ1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblHorimetro, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -248,7 +302,11 @@ public class ViewMain extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(lblEstado))
-                .addGap(35, 35, 35))
+                .addGap(2, 2, 2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblHorimetro)
+                    .addComponent(lbl3))
+                .addContainerGap())
         );
 
         sPnl1.setBackground(java.awt.Color.white);
@@ -275,7 +333,7 @@ public class ViewMain extends javax.swing.JFrame {
         pnlGrafico.setLayout(pnlGraficoLayout);
         pnlGraficoLayout.setHorizontalGroup(
             pnlGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sclGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+            .addComponent(sclGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
         );
         pnlGraficoLayout.setVerticalGroup(
             pnlGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,12 +402,11 @@ public class ViewMain extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pnlGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(106, 106, 106)
+                        .addGap(61, 61, 61)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
@@ -416,10 +473,8 @@ public class ViewMain extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ViewMain().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ViewMain().setVisible(true);
         });
     }
 
@@ -449,8 +504,10 @@ public class ViewMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lbl3;
     private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblGrafico;
+    private javax.swing.JLabel lblHorimetro;
     private javax.swing.JLabel lblZ1;
     private javax.swing.JLabel lblZ2;
     private javax.swing.JPanel pnlGrafico;

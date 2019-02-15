@@ -25,7 +25,8 @@ public enum PathList {
     OFFSETVULCANICACAO_1("OffSetVulcanizacao_1"),
     OFFSETVULCANICACAO_2("OffSetVulcanizacao_2"),
     OFFSETVULCANICACAO_3("OffSetVulcanizacao_3"),
-    OFFSETVULCANICACAO_4("OffSetVulcanizacao_4");
+    OFFSETVULCANICACAO_4("OffSetVulcanizacao_4"),
+    HORIMETRO("Horimetro");
 
     private final String path;
 
