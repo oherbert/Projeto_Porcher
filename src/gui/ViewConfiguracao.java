@@ -30,11 +30,20 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
-        // Carrega os dados atuais nos campos
+        
+        // Carrega os dados  no ConboBox ***** Windows ************
         String[] lstCom = new String[]{"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"};
         for (String lst : lstCom) {
             cboCom.addItem(lst);
         }
+       /* 
+        // Carrega os dados  no ConboBox  ***** RaspBerry Pi *****************
+        String[] lstCom = new String[]{"//dev//ttyACM0", "//dev//ttyACM1", "//dev//ttyACM2", "//dev//ttyACM3", "//dev//ttyACM4", "//dev//ttyACM5", "//dev//ttyACM6", "//dev//ttyACM7", "//dev//ttyACM8"};
+        for (String lst : lstCom) {
+            cboCom.addItem(lst);
+        }
+     */
+        
         ///////////////
         //// Carrega os valores que estão salvos no arquivo 
 

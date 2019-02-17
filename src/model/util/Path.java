@@ -132,7 +132,7 @@ public class Path {
         if (exist == false) {
             // Carrega o novo parametro no arquivo
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, false))) {
-                bw.write("ArduinoCom: COM8\n");
+                bw.write("ArduinoCom: null\n");
                 bw.write("CloudFolder: https://drive.google.com/drive/folders/1ad7ErOeUKliwyPDP4FTEFxfGunt6fUGo?usp=sharing\n");
                 bw.write("Horimetro: 0\n");
                 bw.write("LocalFolder: C:\\Users\\Herbert\\Google Drive\\Registros Projeto Porcher\n");
