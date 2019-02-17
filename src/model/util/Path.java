@@ -7,7 +7,6 @@ package model.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -122,16 +121,15 @@ public class Path {
 
     public static void InitialConfig() {
         String path = "Config.txt";
-        Boolean exist = false;    
-        
+        Boolean exist = false;
+
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            System.out.println("Existe");
             exist = true;
         } catch (IOException e) {
             System.out.println("ClassePath: Criando um novo aquivo config " + e.getMessage());
         }
-        
-        if (exist == false){
+
+        if (exist == false) {
             // Carrega o novo parametro no arquivo
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, false))) {
                 bw.write("ArduinoCom: COM8\n");

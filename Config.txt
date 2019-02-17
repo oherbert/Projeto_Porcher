@@ -1,6 +1,6 @@
 ArduinoCom: COM8
 CloudFolder: https://drive.google.com/drive/folders/1ad7ErOeUKliwyPDP4FTEFxfGunt6fUGo?usp=sharing
-Horimetro: 20186
+Horimetro: 323113
 LocalFolder: C:\Users\Herbert\Google Drive\Registros Projeto Porcher
 OffSetSecagem_1: 0
 OffSetSecagem_2: 0

@@ -34,39 +34,46 @@ public class ViewMain extends javax.swing.JFrame {
         initComponents();
         Locale.setDefault(Locale.US);
         Path.InitialConfig();
-        ArduinoSerial arduino = new ArduinoSerial(Path.loadPath(PathList.ARDUINOCOM));
         String log = "Inicializando o Sistema";
         geraLog(log);
         Grafico.carregaGrafico(Utils.getDataFormated_(), sclGrafico, "Grafico", 980, 500, 1);
         this.setExtendedState(MAXIMIZED_BOTH);
 
         Thread tr1 = new Thread() {
-
             @Override
             public void run() {
+                // Este while se precisar recomeçar a comunicação, se a porta estiver errada 
+                while(true){
+                String currentCOM = Path.loadPath(PathList.ARDUINOCOM);
                 String lastLog = "";
-
+                
                 try {
-                    arduino.initialize();
-                    arduino.sleep(3000);
-
                     String sendedData = null;
                     int contNew = 0;
-
                     // Variaveis para o horimetro
                     boolean addHour = false;
                     Calendar cal1 = Calendar.getInstance();
                     Date d1 = new Date(System.currentTimeMillis());
                     lblHorimetro.setText(CountHour.formatHour(Path.loadPath(PathList.HORIMETRO)));
-
+                    
+                    ArduinoSerial arduino = new ArduinoSerial(Path.loadPath(PathList.ARDUINOCOM));
+                    arduino.initialize();
+                    arduino.sleep(3000);
+                  
                     while (true) {
+                        
+                        //Força recriar uma nova comunicação com o arduino
+                        if (!currentCOM.equals(Path.loadPath(PathList.ARDUINOCOM))){
+                        break;
+                        }
 
                         try {
                             //Logica para envio de dados
                             String sendData = "{" + Path.loadPath(PathList.TEMPOGRAVACAO) + ", " + Path.loadPath(PathList.TEMPERATURA_SET_1) + ", " + Path.loadPath(PathList.TEMPERATURA_SET_2)
                                     + ", " + Path.loadPath(PathList.RANGETEMPERATURA_1) + ", " + Path.loadPath(PathList.RANGETEMPERATURA_2) + ", " + Path.loadPath(PathList.OFFSETSECAGEM_1)
                                     + ", " + Path.loadPath(PathList.OFFSETVULCANICACAO_1) + "}";
-
+                           
+                            //Compara o ultimo arquivo enviado com o do arquivo config.txt
                             if (!(sendData).equals(sendedData)) {
                                 arduino.send(sendData);
                                 sendedData = sendData;
@@ -153,9 +160,9 @@ public class ViewMain extends javax.swing.JFrame {
                                 }
                             }
 
-                        } else if (!"Tentando carregar valores do arduino...".equals(lastLog)) {
-                            erroLog("Tentando carregar valores do arduino...");
-                            lastLog = "Tentando carregar valores do arduino...";
+                        } else if (!"Carregando os dados do arduino...".equals(lastLog)) {
+                            erroLog("Carregando os dados do arduino...");
+                            lastLog = "Carregando os dados do arduino...";
                         }
 
                     }
@@ -163,7 +170,7 @@ public class ViewMain extends javax.swing.JFrame {
                     erroLog("Erro ao acessar o Arduino");
                 }
             }
-
+            }
         };
 
         tr1.start();
