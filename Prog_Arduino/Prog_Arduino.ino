@@ -25,6 +25,8 @@ void setup() {
   pinMode(pinStats, INPUT_PULLUP);
   pinMode(pinAlarm, OUTPUT);
   Serial.begin(9600);
+  serialPort.disableReceiveTimeout();
+  serialPort.enableReceiveThreshold(1);
   Serial.setTimeout(5);
 }
 

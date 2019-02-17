@@ -33,6 +33,7 @@ public class ViewMain extends javax.swing.JFrame {
     public ViewMain() {
         initComponents();
         Locale.setDefault(Locale.US);
+        Path.InitialConfig();
         ArduinoSerial arduino = new ArduinoSerial(Path.loadPath(PathList.ARDUINOCOM));
         String log = "Inicializando o Sistema";
         geraLog(log);

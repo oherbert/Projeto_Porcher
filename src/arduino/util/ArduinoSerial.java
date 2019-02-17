@@ -22,15 +22,6 @@ import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.TooManyListenersException;
 
-/**
- * <b>Site: www.descompila.com</b>
- * 
- * <b>Email: samuelson@descompila.com</b>
- * 
- * @author Samuelson Brito
- * 
- * @version 1.0
- */
 public class ArduinoSerial implements SerialPortEventListener {
 
     private SerialPort serialPort;
@@ -73,7 +64,7 @@ public class ArduinoSerial implements SerialPortEventListener {
             }
         }
         if (portId == null) {
-            System.out.println("Could not find COM port.");
+            System.out.println("Classe ArduinoSerial ln76: Não pode encontar a porta.");
             return;
         }
 
@@ -96,7 +87,7 @@ public class ArduinoSerial implements SerialPortEventListener {
             serialPort.addEventListener(this);
             serialPort.notifyOnDataAvailable(true);
         } catch (PortInUseException | UnsupportedCommOperationException | IOException | TooManyListenersException e) {
-            System.err.println(e.toString());
+            System.err.println("Classe ArduinoSerial ln90: " + e.toString());
         }
     }
 
@@ -104,7 +95,7 @@ public class ArduinoSerial implements SerialPortEventListener {
         try {
             output.write(data.getBytes());
         } catch (Exception e) {
-            System.err.println(e.toString());
+            System.err.println("Classe ArduinoSerial ln98: " + e.toString());
         }
     }
 
@@ -116,7 +107,7 @@ public class ArduinoSerial implements SerialPortEventListener {
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
-            System.err.println(e.toString());
+            System.err.println("Classe ArduinoSerial l10: " + e.toString());
         }
     }
 
@@ -142,7 +133,7 @@ public class ArduinoSerial implements SerialPortEventListener {
             try {
                 inputLine = input.readLine();
             } catch (Exception e) {
-                System.err.println(e.toString());
+               // System.err.println("Classe ArduinoSerial ln136: " + e.toString());
             }
         }
         // Ignore all the other eventTypes, but you should consider the other ones.

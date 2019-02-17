@@ -7,6 +7,7 @@ package model.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -115,6 +116,46 @@ public class Path {
             }
         } catch (IOException e) {
             System.out.println("ClassePath: Erro ao tentar alterar as configuraçoes : " + e.getMessage());
+        }
+
+    }
+
+    public static void InitialConfig() {
+        String path = "Config.txt";
+        Boolean exist = false;    
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            System.out.println("Existe");
+            exist = true;
+        } catch (IOException e) {
+            System.out.println("ClassePath: Criando um novo aquivo config " + e.getMessage());
+        }
+        
+        if (exist == false){
+            // Carrega o novo parametro no arquivo
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, false))) {
+                bw.write("ArduinoCom: COM8\n");
+                bw.write("CloudFolder: https://drive.google.com/drive/folders/1ad7ErOeUKliwyPDP4FTEFxfGunt6fUGo?usp=sharing\n");
+                bw.write("Horimetro: 0\n");
+                bw.write("LocalFolder: C:\\Users\\Herbert\\Google Drive\\Registros Projeto Porcher\n");
+                bw.write("OffSetSecagem_1: 0\n");
+                bw.write("OffSetSecagem_2: 0\n");
+                bw.write("OffSetSecagem_3: 0\n");
+                bw.write("OffSetSecagem_4: 0\n");
+                bw.write("OffSetVulcanizacao_1: 0\n");
+                bw.write("OffSetVulcanizacao_2: 0\n");
+                bw.write("OffSetVulcanizacao_3: 0\n");
+                bw.write("OffSetVulcanizacao_4: 0\n");
+                bw.write("RangeTemperatura1: 10\n");
+                bw.write("RangeTemperatura2: 10\n");
+                bw.write("TemperaturaSet1: 157\n");
+                bw.write("TemperaturaSet2: 167\n");
+                bw.write("TempoGravacao: 180");
+
+            } catch (IOException e) {
+                System.out.println("ClassePath: Erro ao tentar alterar as configuraçoes : " + e.getMessage());
+            }
+
         }
 
     }
