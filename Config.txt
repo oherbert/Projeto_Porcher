@@ -1,17 +1,17 @@
 ArduinoCom: COM8
 CloudFolder: https://drive.google.com/drive/folders/1ad7ErOeUKliwyPDP4FTEFxfGunt6fUGo?usp=sharing
-Horimetro: 679055
+Horimetro: 2659735
 LocalFolder: C:\Users\Herbert\Google Drive\Registros Projeto Porcher
-OffSetSecagem_1: -20.0
+OffSetSecagem_1: 2.0
 OffSetSecagem_2: 1.0
 OffSetSecagem_3: 3.0
 OffSetSecagem_4: 4.0
-OffSetVulcanizacao_1: -20.0
+OffSetVulcanizacao_1: 1.0
 OffSetVulcanizacao_2: 2.0
 OffSetVulcanizacao_3: 1.0
 OffSetVulcanizacao_4: 4.0
 RangeTemperatura1: 10
 RangeTemperatura2: 10
-TemperaturaSet1: 157
-TemperaturaSet2: 167
-TempoGravacao: 300
+TemperaturaSet1: 200
+TemperaturaSet2: 200
+TempoGravacao: 180

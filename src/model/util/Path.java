@@ -62,7 +62,9 @@ public class Path {
         return valor;
     }
 
-    public static String loadPath(PathList configList) {
+    ////////////
+    // Carrega o valor contido do endereço no arquivo de configuração
+    public static String loadPath(PathList pathList) {
 
         String path = "Config.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -70,7 +72,7 @@ public class Path {
             while (line != null) {
                 String[] linha = line.split(": ");
 
-                if (configList.getPath().equals(linha[0])) {
+                if (pathList.getPath().equals(linha[0])) {
                     return linha[1];
                 } else {
                     line = br.readLine();
@@ -78,15 +80,18 @@ public class Path {
             }
 
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("ClassePath: Caminho não encontrado: " + e.getMessage());
         }
         return null;
     }
 
+    ////////////////////////
+    // Altera o valor do endereço no arquivo config.txt
     public static void setPath(Path config) {
         String path = "Config.txt";
         Map<String, String> mapPath = new TreeMap<>();
-///Carrega Todos as configurações do arquivo config
+
+        ///Carrega Todas  configurações do arquivo config
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line = br.readLine();
 
@@ -97,9 +102,10 @@ public class Path {
             }
 
         } catch (IOException e) {
-            System.out.println("Erro ao tentar criar o mapeamento das configurações " + e.getMessage());
+            System.out.println("ClassePath: Erro ao tentar criar o mapeamento das configurações " + e.getMessage());
         }
 
+        // Carrega o novo parametro no arquivo
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, false))) {
             mapPath.put(config.getParametro().getPath(), config.getValor());
 
@@ -108,7 +114,7 @@ public class Path {
                 bw.newLine();
             }
         } catch (IOException e) {
-            System.out.println("Erro ao tentar alterar as configuraçoes : " + e.getMessage());
+            System.out.println("ClassePath: Erro ao tentar alterar as configuraçoes : " + e.getMessage());
         }
 
     }

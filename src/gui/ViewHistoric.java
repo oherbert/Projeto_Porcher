@@ -20,7 +20,10 @@ public class ViewHistoric extends javax.swing.JFrame {
      */
     public ViewHistoric() {
         initComponents();
-        // this.setExtendedState(MAXIMIZED_BOTH);
+        this.setExtendedState(MAXIMIZED_BOTH);
+
+        /////////////////////////////////
+        // Carrega as pasta dos meses comboBox
         for (File folder : Loader.folder()) {
             cboMes.addItem(folder.getName());
         }
@@ -158,16 +161,18 @@ public class ViewHistoric extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMesActionPerformed
+        // Limpa o ComboBox dos dados anteriores, caso selecio outro mes
         cboDia.removeAllItems();
         cboDia.addItem("Dia");
 
+        /////////////////////////////////
+        // Carrega os aruivos  da pasta selecionada  
         if (!"Mês e ano".equals(cboMes.getSelectedItem().toString())) {
             for (File file : Loader.file(cboMes.getSelectedItem().toString())) {
                 String[] newFile = file.getName().split("_");
                 if (newFile.length >= 3) {
                     cboDia.addItem(newFile[0]);
                 }
-
             }
         }
     }//GEN-LAST:event_cboMesActionPerformed
@@ -177,8 +182,10 @@ public class ViewHistoric extends javax.swing.JFrame {
     }//GEN-LAST:event_cboDiaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if (!cboMes.getSelectedItem().equals("Mês e ano") && !cboDia.getSelectedItem().equals("Dia")) {
 
+        /////////////////////////////////
+        // Carrega o grafico ou a tabela do arquivo 
+        if (!cboMes.getSelectedItem().equals("Mês e ano") && !cboDia.getSelectedItem().equals("Dia")) {
             if (optGrafico.isSelected()) {
                 spaneInfo.add(lblInfo);
                 Grafico.carregaGrafico(cboDia.getSelectedItem().toString() + "_" + cboMes.getSelectedItem().toString(),

@@ -117,6 +117,7 @@ public class ViewRegistro extends javax.swing.JDialog {
     }//GEN-LAST:event_linkLabelMouseClicked
 
     private void linkLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkLabelMouseEntered
+
         linkLabel.setBackground(Color.red);
         linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_linkLabelMouseEntered

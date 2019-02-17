@@ -93,7 +93,7 @@ public class Grafico extends ApplicationFrame {
             cal1.setTime(d1);
             cal1.add(Calendar.HOUR_OF_DAY, -(hourLimit));
             d1 = cal1.getTime();
-            
+
             // Logica para não tracejar onde não houve leituras
             Calendar cal2 = Calendar.getInstance();
             Date d2 = new Date();
@@ -102,7 +102,7 @@ public class Grafico extends ApplicationFrame {
 
             Calendar cal3 = Calendar.getInstance();
             Date d3 = new Date();
-            
+
             // logica para proteger de pegar dados com diferença de 1 minuto para não superpular o grafico 
             Calendar cal4 = Calendar.getInstance();
             Date d4 = new Date();
@@ -115,10 +115,9 @@ public class Grafico extends ApplicationFrame {
                 try {
                     if (sdf.parse(cut[0]).after(d1) || hourLimit == -1000) {
 
-                        if ((d4).after(sdf.parse(cut[0]))){
-                        
-                        }
-                        else if ((d2).after(sdf.parse(cut[0]))) {
+                        if ((d4).after(sdf.parse(cut[0]))) {
+
+                        } else if ((d2).after(sdf.parse(cut[0]))) {
                             z1.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[1]));
                             z2.add(new Minute(sdf.parse(cut[0]), TimeZone.getDefault()), Double.parseDouble(cut[2]));
                         } else {
@@ -137,7 +136,7 @@ public class Grafico extends ApplicationFrame {
                         cal3.setTime(d3);
                         cal3.add(Calendar.MINUTE, 3);
                         d3 = cal3.getTime();
-                        
+
                         // Se algum dado tiver a difença menor que 1 minuto não vai para o grafico
                         d4 = sdf.parse(cut[0]);
                         cal4.setTime(d4);
@@ -146,13 +145,13 @@ public class Grafico extends ApplicationFrame {
                     }
 
                 } catch (ParseException ex) {
-                    Logger.getLogger("Erro ao tentar converter os dados do registro: " + ex.getMessage());
+                    Logger.getLogger("Classe Grafico: Erro ao tentar converter os dados do registro: " + ex.getMessage());
                 }
 
                 line = br.readLine();
             }
         } catch (IOException e) {
-            System.out.println("Erro ao tentar carregar dados no grafico: " + e.getMessage());
+            System.out.println("Classe Grafico: Erro ao tentar carregar dados no grafico: " + e.getMessage());
         }
 
         final TimeSeriesCollection dataset = new TimeSeriesCollection();
@@ -173,12 +172,11 @@ public class Grafico extends ApplicationFrame {
             java.awt.Image nGrafico = Toolkit.getDefaultToolkit().getImage(path);
             nGrafico.flush();
             sPane.setViewportView(new JLabel(new ImageIcon(nGrafico)));
-            //label.setIcon(new ImageIcon(nGrafico));
 
         } catch (NullPointerException e) {
             Alerts.showAlert("Erro ao gerar o grafico", "O Sistema não pode achar o arquivo para construção do grafico ",
                     "", TypePane.ERRO);
-            System.out.println("Erro ao gerar o grafico");
+            System.out.println("Classe Grafico: Erro ao gerar o grafico");
         }
     }
 

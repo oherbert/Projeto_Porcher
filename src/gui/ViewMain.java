@@ -20,7 +20,6 @@ import java.util.Locale;
 import model.entities.LeituraMaquina;
 import model.enums.TypePane;
 import model.exceptions.ArduinoException;
-import org.joda.time.DateTime;
 
 /**
  *
@@ -58,7 +57,6 @@ public class ViewMain extends javax.swing.JFrame {
                     Calendar cal1 = Calendar.getInstance();
                     Date d1 = new Date(System.currentTimeMillis());
                     lblHorimetro.setText(CountHour.formatHour(Path.loadPath(PathList.HORIMETRO)));
-                  
 
                     while (true) {
 
@@ -107,18 +105,16 @@ public class ViewMain extends javax.swing.JFrame {
                                     lblZ1.setText(tempSec1.toString());
                                     lblZ2.setText(tempVul1.toString());
                                     lblEstado.setText(estado);
-                                    
+
                                     Date d2 = new Date(System.currentTimeMillis());
-                                    
-                                    if (("Ligada".equals(estado) || "Ligando...".equals(estado) 
-                                        || "Alarme Temperatura".equals(estado) )&& addHour == false) {
+
+                                    if (("Ligada".equals(estado) || "Ligando...".equals(estado)
+                                            || "Alarme Temperatura".equals(estado)) && addHour == false) {
                                         addHour = true;
                                         cal1.setTime(d2);
                                         cal1.add(Calendar.SECOND, 10);
                                         d1 = cal1.getTime();
                                     }
-
-                                   
 
                                     if (addHour == true && (d2).after(d1)) {
                                         CountHour.homerimetro(d1, -10);
@@ -126,10 +122,10 @@ public class ViewMain extends javax.swing.JFrame {
                                         cal1.add(Calendar.SECOND, 10);
                                         d1 = cal1.getTime();
                                         lblHorimetro.setText(CountHour.formatHour(Path.loadPath(PathList.HORIMETRO)));
-                                        
+
                                     }
 
-                                    if (("Desligada".equals(estado) || "Desligando...".equals(estado)) && addHour == true ) {
+                                    if (("Desligada".equals(estado) || "Desligando...".equals(estado)) && addHour == true) {
                                         CountHour.homerimetro(d1, 0);
                                         lblHorimetro.setText(CountHour.formatHour(Path.loadPath(PathList.HORIMETRO)));
                                         addHour = false;
@@ -160,6 +156,7 @@ public class ViewMain extends javax.swing.JFrame {
                             erroLog("Tentando carregar valores do arduino...");
                             lastLog = "Tentando carregar valores do arduino...";
                         }
+
                     }
                 } catch (UnsatisfiedLinkError e) {
                     erroLog("Erro ao acessar o Arduino");

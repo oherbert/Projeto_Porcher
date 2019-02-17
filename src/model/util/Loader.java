@@ -20,22 +20,21 @@ import model.enums.PathList;
  */
 public class Loader {
 
+    // Carrega um array das pastas contidas no diretorio
     public static File[] folder() {
-
         File path = new File(Path.loadPath(PathList.LOCALFOLDER));
         File[] folders = path.listFiles(File::isDirectory);
-
         return folders;
     }
 
+    // Carrega um array dos arquivo contido na pasta selecionda
     public static File[] file(String selectedFolder) {
-
         File path = new File(Path.loadPath(PathList.LOCALFOLDER) + "\\" + selectedFolder);
         File[] folders = path.listFiles(File::isFile);
-
         return folders;
     }
 
+    // Carrega uma tabela do arquivo
     public static void fileContent(JScrollPane sPane, String dia, String mesAno) {
 
         String[] title = new String[]{"Data hora", "Temp Secagem", "Temp Vulcanização", "Estado"};
@@ -61,7 +60,7 @@ public class Loader {
             table.setModel(model2);
             sPane.setViewportView(table);
         } catch (IOException e) {
-            System.out.println("Erro ao carregar a tabela " + e.getMessage());
+            System.out.println("Classe Loader: Erro ao carregar a tabela " + e.getMessage());
         }
 
     }

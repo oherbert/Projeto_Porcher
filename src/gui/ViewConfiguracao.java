@@ -14,7 +14,7 @@ import model.enums.PathList;
 import model.enums.TypePane;
 import gui.util.CheckTextField;
 import gui.util.Constraints;
-import gui.util.FormatLocalPath;
+import model.util.FormatLocalPath;
 import java.io.File;
 
 /**
@@ -35,6 +35,8 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         for (String lst : lstCom) {
             cboCom.addItem(lst);
         }
+        ///////////////
+        //// Carrega os valores que estão salvos no arquivo 
 
         cboCom.setSelectedItem(Path.loadPath(PathList.ARDUINOCOM));
 
@@ -64,6 +66,9 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         txtSetTemp2.setText(Path.loadPath(PathList.TEMPERATURA_SET_2));
         txtRangeSec1.setText(Path.loadPath(PathList.RANGETEMPERATURA_1));
         txtRangeVul1.setText(Path.loadPath(PathList.RANGETEMPERATURA_2));
+
+        /////////////
+        // Limitações do textFields
         Constraints.setTextFieldInteger(txtSetTemp1);
         Constraints.setTextFieldInteger(txtSetTemp2);
         Constraints.setTextFieldInteger(txtRangeSec1);
@@ -96,6 +101,8 @@ public class ViewConfiguracao extends javax.swing.JDialog {
         txtRangeSec1 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtRangeVul1 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configurações");
@@ -155,17 +162,41 @@ public class ViewConfiguracao extends javax.swing.JDialog {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setText("+/-");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setText("+/-");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(205, 205, 205)
-                .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addComponent(txtSetTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtSetTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(166, 166, 166)
+                                .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtRangeSec1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtRangeVul1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(117, 117, 117))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -196,19 +227,7 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtRemoto, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
                             .addComponent(txtLocal))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(txtRangeSec1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtRangeVul1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(117, 117, 117))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(txtSetTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtSetTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(120, 120, 120))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,7 +263,9 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtRangeSec1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRangeVul1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRangeVul1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10))
                 .addGap(18, 18, 18)
                 .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -259,7 +280,8 @@ public class ViewConfiguracao extends javax.swing.JDialog {
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
 
-        //Lista que valida os campo do textfield 
+        /////////////////////////////////////////////////////////
+        //Lista que valida os campo do textfield não estão vazios 
         List<JTextField> lst = new ArrayList<>();
         lst.add(txtLocal);
         lst.add(txtRemoto);
@@ -283,6 +305,7 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                 try {
                     Path.setPath(new Path(PathList.ARDUINOCOM, cboCom.getSelectedItem().toString()));
 
+                    // pega a String com o valor em minutos e transforma em segundos
                     switch (cboTempo.getSelectedItem().toString()) {
                         case ("1 min"):
                             setTemp = 60;
@@ -301,6 +324,7 @@ public class ViewConfiguracao extends javax.swing.JDialog {
                             break;
                     }
 
+                    // Carrega as configurações no arquivo
                     Path.setPath(new Path(PathList.TEMPOGRAVACAO, Integer.toString(setTemp)));
                     Path.setPath(new Path(PathList.CLOUDFOLDER, txtRemoto.getText()));
                     Path.setPath(new Path(PathList.TEMPERATURA_SET_1, txtSetTemp1.getText()));
@@ -376,6 +400,7 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cboCom;
     private javax.swing.JComboBox<String> cboTempo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -383,6 +408,7 @@ public class ViewConfiguracao extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField txtLocal;
     private javax.swing.JTextField txtRangeSec1;
     private javax.swing.JTextField txtRangeVul1;

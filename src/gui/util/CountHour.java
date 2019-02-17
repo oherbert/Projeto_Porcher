@@ -17,13 +17,11 @@ import model.util.Path;
  * @author Herbert
  */
 public class CountHour {
-    
-    
 
     public static void homerimetro(Date time, int periodo) {
-        
+
         Locale.setDefault(Locale.US);
-        
+
         Calendar cal1 = Calendar.getInstance();
         Date tFim = new Date();
         cal1.setTime(time);
@@ -31,23 +29,22 @@ public class CountHour {
         tFim = cal1.getTime();
 
         Date tInicio = new Date();
-        Long totalTime =(tInicio.getTime() - tFim.getTime());
+        Long totalTime = (tInicio.getTime() - tFim.getTime());
 
         if (totalTime < 0L) {
             totalTime = totalTime * -1;
         }
         totalTime = totalTime + Long.parseLong(Path.loadPath(PathList.HORIMETRO));
-            
-        Path.setPath( new Path (PathList.HORIMETRO, totalTime.toString()));
-        
+
+        Path.setPath(new Path(PathList.HORIMETRO, totalTime.toString()));
 
     }
-    
-    public static String formatHour(String totalT){
-    String resultado;
-    Long totalTime = Long.parseLong(totalT);
-    resultado = String.format("%05d:%02d", TimeUnit.MILLISECONDS.toHours( totalTime ),
-    TimeUnit.MILLISECONDS.toMinutes( totalTime ) % 60);
-    return resultado;
+
+    public static String formatHour(String totalT) {
+        String resultado;
+        Long totalTime = Long.parseLong(totalT);
+        resultado = String.format("%05d:%02d", TimeUnit.MILLISECONDS.toHours(totalTime),
+                TimeUnit.MILLISECONDS.toMinutes(totalTime) % 60);
+        return resultado;
     }
 }
